@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "623021677356",
+    "project_id": "here-52516",
+    "storage_bucket": "here-52516.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623021677356:android:504dc8950800a47a0aaa89",
+        "android_client_info": {
+          "package_name": "com.example.here"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "623021677356-fj6fktubgd11ie6ao5lbju5ro75gj689.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6tNhvAcQHcP21Zy6SNKgOOsxhVOPN2nY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "623021677356-fj6fktubgd11ie6ao5lbju5ro75gj689.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "623021677356-q3jvmm5oqs550k14kpcaiioj1hhqcraj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.here"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
