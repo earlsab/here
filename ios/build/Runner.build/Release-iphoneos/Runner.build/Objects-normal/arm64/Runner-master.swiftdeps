@@ -1,0 +1,8 @@
+version: "Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)"
+options: "8fbd96537d1638519cb941777a22ff74d287b8359e210c1ca27b113d527f4489"
+build_start_time: [1700008807, 371860000]
+build_end_time: [1700008807, 380601000]
+inputs:
+  "/Users/earlsab/Documents/Academics/CCS6_Application-Development-and-Emerging-Tech/here/ios/Runner/AppDelegate.swift": !dirty [1698270344, 0]
+  ? "/Users/earlsab/Documents/Academics/CCS6_Application-Development-and-Emerging-Tech/here/ios/build/Runner.build/Release-iphoneos/Runner.build/DerivedSources/GeneratedAssetSymbols.swift"
+  : !dirty [1700008807, 321445128]
