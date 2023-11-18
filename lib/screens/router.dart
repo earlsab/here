@@ -1,6 +1,7 @@
 // https://docs.flutter.dev/cookbook/navigation/navigation-basics
 
 import 'package:flutter/material.dart';
+import 'package:here/screens/camera.dart';
 import 'package:here/screens/second_route.dart';
 
 class FirstRoute extends StatelessWidget {
@@ -10,7 +11,7 @@ class FirstRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('First Route'),
+        title: const Text('Router'),
       ),
       body: ListView(
         children: [
@@ -23,9 +24,18 @@ class FirstRoute extends StatelessWidget {
               );
             },
           ),
+          ElevatedButton(
+            child: const Text('Camera'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CameraApp()),
+              );
+            },
+          ),
           const ElevatedButton(
             onPressed: null,
-            child: Text('Open route 2'),
+            child: Text('Test Disabled Button'),
           )
         ],
       ),
