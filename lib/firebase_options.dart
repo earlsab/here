@@ -14,7 +14,6 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
-
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -64,8 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '623021677356',
     projectId: 'here-52516',
     storageBucket: 'here-52516.appspot.com',
-    iosClientId:
-        '623021677356-q3jvmm5oqs550k14kpcaiioj1hhqcraj.apps.googleusercontent.com',
+    iosClientId: '623021677356-q3jvmm5oqs550k14kpcaiioj1hhqcraj.apps.googleusercontent.com',
     iosBundleId: 'com.example.here',
   );
 }
