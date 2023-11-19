@@ -2,6 +2,7 @@
 // Routing style from https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/example/lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:here/screens/camera.dart';
+import 'package:here/screens/camera2.dart';
 import 'package:here/screens/second_route.dart';
 
 class FirstRoute extends StatelessWidget {
@@ -15,7 +16,7 @@ class FirstRoute extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
@@ -26,7 +27,8 @@ class FirstRoute extends StatelessWidget {
                     title: Text('Debugging'),
                     children: [
                       CustomCard('Second Route Test', SecondRoute()),
-                      CustomCard('Camera', CameraExampleHome()),
+                      CustomCard('Camera', CameraApp()),
+                      CustomCard('Camera 2', FaceDetectorView()),
                     ],
                   ),
                   SizedBox(
