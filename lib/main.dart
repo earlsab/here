@@ -27,8 +27,18 @@ Future<void> main() async {
   }
 
   //
-  runApp(const MaterialApp(
-    title: "Here!",
-    home: FirstRoute(),
-  ));
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: "Here!",
+      debugShowCheckedModeBanner: false,
+      home: FirstRoute(),
+    );
+  }
 }
