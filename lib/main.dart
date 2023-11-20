@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 // late List<CameraDescription> cameras;
 List<CameraDescription> cameras = <CameraDescription>[];
 
-Future<void> main() async {
+Future <void> main() async {
   // INITIALIZE CAMERAS
   try {
     WidgetsFlutterBinding.ensureInitialized();
