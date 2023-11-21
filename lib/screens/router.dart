@@ -20,21 +20,21 @@ class FirstRoute extends StatelessWidget {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
                   ExpansionTile(
-                    title: Text('Debugging'),
+                    title: const Text('Debugging'),
                     children: [
-                      CustomCard('Second Route Test', SecondRoute()),
-                      CustomCard('Camera', CameraApp()),
-                      CustomCard('Camera 2', FaceDetectorView()),
+                      const CustomCard('Second Route Test', SecondRoute()),
+                      const CustomCard('Camera', CameraApp()),
+                      CustomCard('ML-Kit Implementation', FaceDetectorView()),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  ExpansionTile(
+                  const ExpansionTile(
                     title: Text('Main'),
                     children: [
                       // CustomCard('Entity Extraction', EntityExtractionView()),
