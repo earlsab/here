@@ -1,3 +1,9 @@
+android {                                                                                        │
+    defaultConfig {                                                                                │
+        minSdkVersion 21                                                                             │
+    }
+}
+
 buildscript {
     ext.kotlin_version = '1.7.10'
     repositories {
@@ -12,7 +18,10 @@ buildscript {
         // END: FlutterFire Configuration
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
+
+ 
 }
+
 
 allprojects {
     repositories {
@@ -32,3 +41,4 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
