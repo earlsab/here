@@ -9,7 +9,7 @@ class SecondRoute extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Second Route'),
       ),
-      body: Center(),
+      body: const Center(),
     );
   }
 }

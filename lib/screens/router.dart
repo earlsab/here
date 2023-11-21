@@ -1,6 +1,7 @@
 // https://docs.flutter.dev/cookbook/navigation/navigation-basics
 // Routing style from https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/example/lib/main.dart
 import 'package:flutter/material.dart';
+import 'package:here/pages/bottomsheet.dart';
 import 'package:here/screens/camera.dart';
 import 'package:here/screens/camera2.dart';
 import 'package:here/screens/second_route.dart';
@@ -55,7 +56,8 @@ class CustomCard extends StatelessWidget {
   final Widget _viewPage;
   final bool featureCompleted;
 
-  const CustomCard(this._label, this._viewPage, {this.featureCompleted = true});
+  const CustomCard(this._label, this._viewPage,
+      {super.key, this.featureCompleted = true});
 
   @override
   Widget build(BuildContext context) {
