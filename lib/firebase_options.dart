@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '623021677356',
     projectId: 'here-52516',
     storageBucket: 'here-52516.appspot.com',
+    androidClientId: '623021677356-fmbgrovvs5265ndo4na7ik3sr46igvbm.apps.googleusercontent.com',
     iosClientId: '623021677356-q3jvmm5oqs550k14kpcaiioj1hhqcraj.apps.googleusercontent.com',
     iosBundleId: 'com.example.here',
   );
