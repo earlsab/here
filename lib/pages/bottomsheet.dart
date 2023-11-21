@@ -63,7 +63,7 @@ class BottomSheets extends StatelessWidget {
 }
 
 class BottomSheet extends StatefulWidget {
-  const BottomSheet({super.key}); // Convert 'key' to super parameter
+  const BottomSheet({super.key}); 
 
   @override
   State<BottomSheet> createState() => _MyWidgetState();
@@ -77,7 +77,6 @@ class _MyWidgetState extends State<BottomSheet> {
     super.initState();
     _auth.authStateChanges().listen((event) {
       setState(() {
-        // Add any necessary logic when auth state changes
       });
     });
   }
