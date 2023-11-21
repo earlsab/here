@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
@@ -24,8 +25,8 @@ class FaceDetectorPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Paint paint1 = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0
-      ..color = Colors.red;
+      ..strokeWidth = 5.0
+      ..color = Color.fromARGB(255, 205, 255, 3);
     final Paint paint2 = Paint()
       ..style = PaintingStyle.fill
       ..strokeWidth = 1.0
@@ -61,11 +62,13 @@ class FaceDetectorPainter extends CustomPainter {
         cameraLensDirection,
       );
 
-      canvas.drawRect(
-        Rect.fromLTRB(left, top, right, bottom),
+      canvas.drawRRect(
+        RRect.fromLTRBXY(left, top, right, bottom, 5, 5),
         paint1,
       );
-      print(left);
+      if (kDebugMode) {
+        print("l:{$left}, t:{$top}, r:{$right}, b:{$bottom}");
+      }
 
       //   void paintContour(FaceContourType type) {
       //     final contour = face.contours[type];
