@@ -1,3 +1,5 @@
+// https://docs.flutter.dev/cookbook/plugins/picture-using-camera
+
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -94,8 +96,8 @@ class _CameraViewState extends State<CameraView> {
           _backButton(),
           _switchLiveCameraToggle(),
           _detectionViewModeToggle(),
-          _zoomControl(),
-          _exposureControl(),
+          // _zoomControl(),
+          // _exposureControl(),
         ],
       ),
     );

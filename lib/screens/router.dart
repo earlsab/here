@@ -1,13 +1,14 @@
 // https://docs.flutter.dev/cookbook/navigation/navigation-basics
 // Routing style from https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/example/lib/main.dart
+
 import 'package:flutter/material.dart';
-import 'package:here/pages/bottomsheet.dart';
-import 'package:here/screens/camera.dart';
-import 'package:here/screens/camera2.dart';
+import 'package:here/main.dart';
+import 'package:here/screens/camera/camera_ml_kit.dart';
+import 'package:here/screens/camera_test.dart';
 import 'package:here/screens/second_route.dart';
 
-class FirstRoute extends StatelessWidget {
-  const FirstRoute({super.key});
+class RouterPage extends StatelessWidget {
+  const RouterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,14 @@ class FirstRoute extends StatelessWidget {
                     title: const Text('Debugging'),
                     children: [
                       const CustomCard('Second Route Test', SecondRoute()),
-                      const CustomCard('Camera', CameraApp()),
+                      // const CustomCard('Camera', CameraApp()),
                       CustomCard('ML-Kit Implementation', FaceDetectorView()),
+                      CustomCard(
+                          'Camera Save',
+                          TakePictureScreen(
+                            camera: cameras.first,
+                          )),
+                      // CustomCard('Home', HomeScreen())
                     ],
                   ),
                   const SizedBox(
