@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:here/pages/bottomsheet.dart';
 import 'package:here/screens/router.dart';
 import 'firebase_options.dart';
 
@@ -27,8 +28,18 @@ Future<void> main() async {
   }
 
   //
-  runApp(const MaterialApp(
-    title: "Here!",
-    home: FirstRoute(),
-  ));
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: "Here!",
+      debugShowCheckedModeBanner: false,
+      home: FirstRoute(),
+    );
+  }
 }
