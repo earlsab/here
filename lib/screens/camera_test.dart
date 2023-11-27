@@ -14,6 +14,8 @@ import 'package:image/image.dart' as img;
 import 'package:logger/logger.dart';
 import 'dart:ui' as ui;
 
+import 'camera/painters/coordinates_translator.dart';
+
 // Future<void> main() async {
 //   // Ensure that plugin services are initialized so that `availableCameras()`
 //   // can be called before `runApp()`
@@ -133,79 +135,82 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 }
 
 // A widget that displays the picture taken by the user.
-class DisplayPictureScreen extends StatelessWidget {
+class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
+  List<Face>? faces;
 
   DisplayPictureScreen({super.key, required this.imagePath});
 
-  List<Face>? faces;
+  @override
+  State<DisplayPictureScreen> createState() => _DisplayPictureScreenState();
+}
 
-  Future<ui.Image?> convertAssetToImage(String assetPath) async {
-    final completer = Completer<ui.Image>();
-    final imageProvider = AssetImage(assetPath);
-    final config = ImageConfiguration();
-
-    imageProvider.resolve(config).addListener(
-      ImageStreamListener((ImageInfo info, bool _) {
-        final image = info.image;
-        completer.complete(image);
-      }),
-    );
+class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
+  // var faces;
+  Future<ui.Image> loadImage(String imagePath) async {
+    final Uint8List data = await File(imagePath).readAsBytes();
+    final Completer<ui.Image> completer = Completer();
+    ui.decodeImageFromList(data, (ui.Image img) {
+      completer.complete(img);
+    });
     return completer.future;
   }
 
-  Future<List<Face>?> processFace() async {
+  Future<List<Face>?> processFace(InputImage image) async {
     final options = FaceDetectorOptions(
-      performanceMode: FaceDetectorMode.accurate,
+      performanceMode: FaceDetectorMode.fast,
       enableContours: true,
       enableLandmarks: true,
     );
     final faceDetector = FaceDetector(options: options);
     // logger.d(faces);
-    print(imagePath);
-    InputImage image = InputImage.fromFile(File(imagePath));
-    faces = await faceDetector.processImage(image);
-    return faces;
+    // print(imagePath);
+    widget.faces = await faceDetector.processImage(image);
+    return widget.faces;
   }
 
+  // var _cameraLensDirection = CameraLensDirection.front;
   @override
   Widget build(BuildContext context) {
     // img.Image? inputImage = img.decodeImage(imageFile.readAsBytesSync());
-    Future<List<Face>?> faces = processFace();
-    Future<ui.Image?> image = convertAssetToImage(imagePath);
+    InputImage mlImage = InputImage.fromFilePath(widget.imagePath);
+    Future<ui.Image?> image = loadImage(widget.imagePath);
+    Future<List<Face>?> faces = processFace(mlImage);
+
     return Scaffold(
         appBar: AppBar(title: const Text('Display the Picture')),
         // The image is stored as a file on the device. Use the `Image.file`
         // constructor with the given path to display the image.
-        body: Column(
-          children: [
-            FutureBuilder(
-                future: Future.wait([image, faces]),
-                builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return CustomPaint(
-                      painter: FacePainter(
-                        image: snapshot.data?[0],
-                        faces: snapshot.data?[1],
-                      ),
-                    );
-                  } else {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                })
-          ], // child: Container(Image.file(File(imagePath))),
-        ));
+        body: FutureBuilder(
+            future: Future.wait([image, faces]),
+            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return CustomPaint(
+                  painter: FacePainter(
+                    image: snapshot.data?[0],
+                    faces: snapshot.data?[1],
+                  ),
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            })
+        // child: Container(Image.file(File(imagePath))),
+        );
   }
 }
 
 class FacePainter extends CustomPainter {
-  final ui.Image image;
-  final List<Face> faces;
+  final ui.Image? image;
+  final List<Face>? faces;
   final List<Rect> rects = [];
 
   FacePainter({required this.image, required this.faces}) {
-    for (var i = 0; i < faces.length; i++) {
-      rects.add(faces[i].boundingBox);
+    print(faces);
+    if (faces != null) {
+      for (var i = 0; i < faces!.length; i++) {
+        rects.add(faces![i].boundingBox);
+      }
     }
   }
 
@@ -216,10 +221,19 @@ class FacePainter extends CustomPainter {
       ..strokeWidth = 15.0
       ..color = Colors.yellow;
 
-    canvas.drawImage(image, Offset.zero, Paint());
-
-    for (var i = 0; i < faces.length; i++) {
-      canvas.drawRect(rects[i], paint);
+    if (image != null) {
+      canvas.drawImage(image!, Offset.zero, Paint());
+      for (var i = 0; i < faces!.length; i++) {
+        print(rects[i]);
+        canvas.drawRect(rects[i], paint);
+      }
+    } else {
+      for (var i = 0; i < faces!.length; i++) {
+        print(rects[i]);
+        canvas.drawRect(rects[i], paint);
+      }
+      // canvas.drawRect(rects[i], paint);
+      // canvas.drawColor(Colors.white, BlendMode.dst);
     }
   }
 
