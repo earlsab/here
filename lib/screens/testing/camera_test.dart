@@ -14,8 +14,6 @@ import 'package:image/image.dart' as img;
 import 'package:logger/logger.dart';
 import 'dart:ui' as ui;
 
-import 'camera/painters/coordinates_translator.dart';
-
 // Future<void> main() async {
 //   // Ensure that plugin services are initialized so that `availableCameras()`
 //   // can be called before `runApp()`
