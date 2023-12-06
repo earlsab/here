@@ -1,5 +1,10 @@
+import 'dart:io';
+import 'dart:core';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 // TODO: MAKE WIDGET REUSABLE
 class AddItem extends StatefulWidget {
@@ -18,11 +23,12 @@ class _AddItemState extends State<AddItem> {
   CollectionReference _reference =
       FirebaseFirestore.instance.collection('attendance');
 
+  String imageUrl = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add an item'),
+        title: Text('Add Attendance'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -32,45 +38,96 @@ class _AddItemState extends State<AddItem> {
             children: [
               TextFormField(
                 controller: _controllerName,
-                decoration:
-                    InputDecoration(hintText: 'Enter the name of the item'),
+                decoration: InputDecoration(
+                    hintText: 'ID Number (e.g. 21-1-12345 or 21112345)'),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the item name';
                   }
-
                   return null;
                 },
               ),
-              TextFormField(
-                controller: _controllerQuantity,
-                decoration:
-                    InputDecoration(hintText: 'Enter the quantity of the item'),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the item quantity';
-                  }
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                        onPressed: () async {
+                          /*
+                      * Step 1. Pick/Capture an image   (image_picker)
+                      * Step 2. Upload the image to Firebase storage
+                      * Step 3. Get the URL of the uploaded image
+                      * Step 4. Store the image URL inside the corresponding
+                      *         document of the database.
+                      * Step 5. Display the image on the list
+                      *
+                      * */
 
-                  return null;
-                },
+                          /*Step 1:Pick image*/
+                          //Install image_picker
+                          //Import the corresponding library
+
+                          ImagePicker imagePicker = ImagePicker();
+                          XFile? file = await imagePicker.pickImage(
+                              source: ImageSource.camera);
+                          print('${file?.path}');
+
+                          if (file == null) return;
+                          //Import dart:core
+                          String uniqueFileName =
+                              DateTime.now().millisecondsSinceEpoch.toString();
+
+                          /*Step 2: Upload to Firebase storage*/
+                          //Install firebase_storage
+                          //Import the library
+
+                          //Get a reference to storage root
+                          Reference referenceRoot =
+                              FirebaseStorage.instance.ref();
+                          Reference referenceDirImages =
+                              referenceRoot.child('images');
+
+                          //Create a reference for the image to be stored
+                          Reference referenceImageToUpload =
+                              referenceDirImages.child(uniqueFileName);
+
+                          //Handle errors/success
+                          try {
+                            //Store the file
+                            await referenceImageToUpload
+                                .putFile(File(file.path));
+                            //Success: get the download URL
+                            imageUrl =
+                                await referenceImageToUpload.getDownloadURL();
+                          } catch (error) {
+                            //Some error occurred
+                          }
+                        },
+                        icon: Icon(Icons.camera_alt)),
+                  ),
+                  SizedBox(width: 50),
+                  ElevatedButton(
+                      onPressed: () async {
+                        if (key.currentState!.validate()) {
+                          String itemName = _controllerName.text;
+                          // String itemQuantity = _controllerQuantity.text;
+
+                          //Create a Map of data
+                          Map<String, String> dataToSend = {
+                            'student-id': itemName,
+                            'image': imageUrl
+                          };
+
+                          //Add a new item
+                          _reference.add(dataToSend);
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 95),
+                        child: Text('Submit'),
+                      )),
+                ],
               ),
-              ElevatedButton(
-                  onPressed: () async {
-                    if (key.currentState!.validate()) {
-                      String itemName = _controllerName.text;
-                      String itemQuantity = _controllerQuantity.text;
-
-                      //Create a Map of data
-                      Map<String, String> dataToSend = {
-                        'name': itemName,
-                        'record': itemQuantity
-                      };
-
-                      //Add a new item
-                      _reference.add(dataToSend);
-                    }
-                  },
-                  child: Text('Submit'))
             ],
           ),
         ),
