@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:here/screens/reusable-pages/details_item.dart';
+import 'package:here/util/file_name_getter.dart';
 import 'add_item.dart';
 
 class ItemList extends StatelessWidget {
@@ -52,7 +53,11 @@ class ItemList extends StatelessWidget {
                   Map thisItem = items[index];
                   //REturn the widget for the list items
                   return ListTile(
-                    title: Text('${thisItem['data']['student-id']}'),
+                    title: Text(
+                      '${thisItem['data']['student-id']}',
+                      style: TextStyle(fontSize: 24), // Set the font size to 24
+                    ),
+                    subtitle: Text(getFileName(thisItem['data']['image'])),
                     // subtitle: Text('${thisItem['quantity']}'),
                     leading: Container(
                       height: 80,

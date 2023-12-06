@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/reusable-pages/edit_item.dart';
 
 class ItemDetails extends StatelessWidget {
+  Map item;
+  late DocumentReference _reference;
+
+  //_reference.get()  --> returns Future<DocumentSnapshot>
+  //_reference.snapshots() --> Stream<DocumentSnapshot>
+  late Future<DocumentSnapshot>? _futureData;
+  late dynamic? data;
   ItemDetails(this.item, {Key? key}) : super(key: key) {
     _reference =
         FirebaseFirestore.instance.collection('attendance').doc(item['id']);
@@ -16,14 +23,6 @@ class ItemDetails extends StatelessWidget {
       onError: (e) => print("Error getting document: $e"),
     );
   }
-
-  Map item;
-  late DocumentReference _reference;
-
-  //_reference.get()  --> returns Future<DocumentSnapshot>
-  //_reference.snapshots() --> Stream<DocumentSnapshot>
-  late Future<DocumentSnapshot>? _futureData;
-  late dynamic? data;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +51,7 @@ class ItemDetails extends StatelessWidget {
         future: _futureData,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text('Some error occurred ${snapshot.error}'));
+            return Text('Some error occurred ${snapshot.error}');
           }
 
           if (snapshot.hasData) {
@@ -62,8 +61,25 @@ class ItemDetails extends StatelessWidget {
               if (data != null && data is Map<dynamic, dynamic>) {
                 return Column(
                   children: [
-                    Text('${data['student-id']}'),
-                    Text('${data['image']}'),
+                    item['data'].containsKey('image')
+                        ? Image.network('${item['data']['image']}')
+                        : Container(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            '${data['student-id']}',
+                            style: TextStyle(fontSize: 20),
+                            textAlign:
+                                TextAlign.left, // Set the desired font size
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 );
               }
