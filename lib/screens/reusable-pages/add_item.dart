@@ -4,6 +4,8 @@ import 'dart:core';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:here/screens/reusable-pages/wait_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 // TODO: MAKE WIDGET REUSABLE
@@ -24,8 +26,94 @@ class _AddItemState extends State<AddItem> {
       FirebaseFirestore.instance.collection('attendance');
 
   String imageUrl = '';
+  UploadTask? uploadTask;
+
+  Future uploadFile() async {
+    /*
+                      * Step 1. Pick/Capture an image   (image_picker)
+                      * Step 2. Upload the image to Firebase storage
+                      * Step 3. Get the URL of the uploaded image
+                      * Step 4. Store the image URL inside the corresponding
+                      *         document of the database.
+                      * Step 5. Display the image on the list
+                      *
+                      * */
+
+    /*Step 1:Pick image*/
+    //Install image_picker
+    //Import the corresponding library
+    ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
+    print('${file?.path}');
+
+    if (file == null) return;
+    //Import dart:core
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    /*Step 2: Upload to Firebase storage*/
+    //Install firebase_storage
+    //Import the library
+
+    //Get a reference to storage root
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('images');
+
+    //Create a reference for the image to be stored
+    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
+
+    //Handle errors/success
+    try {
+      //Store the file
+      setState(() {
+        uploadTask = referenceImageToUpload.putFile(File(file.path));
+      });
+
+      //Success: get the download URL
+
+      await uploadTask;
+      imageUrl = await referenceImageToUpload.getDownloadURL();
+    } catch (error) {
+      //Some error occurred
+    }
+
+    setState(() {
+      uploadTask = null;
+    });
+  }
+
+  Widget buildProgress() => StreamBuilder<TaskSnapshot>(
+      stream: uploadTask?.snapshotEvents,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!;
+          double progress = data.bytesTransferred / data.totalBytes;
+          return SizedBox(
+            height: 50,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: Colors.grey,
+                  color: Colors.green,
+                ),
+                Center(
+                  child: Text(
+                    '${(100 * progress).roundToDouble()}%',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox(height: 50);
+        }
+      });
+
   @override
   Widget build(BuildContext context) {
+    late UploadTask? uploadTask;
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Attendance'),
@@ -53,55 +141,7 @@ class _AddItemState extends State<AddItem> {
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                         onPressed: () async {
-                          /*
-                      * Step 1. Pick/Capture an image   (image_picker)
-                      * Step 2. Upload the image to Firebase storage
-                      * Step 3. Get the URL of the uploaded image
-                      * Step 4. Store the image URL inside the corresponding
-                      *         document of the database.
-                      * Step 5. Display the image on the list
-                      *
-                      * */
-
-                          /*Step 1:Pick image*/
-                          //Install image_picker
-                          //Import the corresponding library
-
-                          ImagePicker imagePicker = ImagePicker();
-                          XFile? file = await imagePicker.pickImage(
-                              source: ImageSource.camera);
-                          print('${file?.path}');
-
-                          if (file == null) return;
-                          //Import dart:core
-                          String uniqueFileName =
-                              DateTime.now().millisecondsSinceEpoch.toString();
-
-                          /*Step 2: Upload to Firebase storage*/
-                          //Install firebase_storage
-                          //Import the library
-
-                          //Get a reference to storage root
-                          Reference referenceRoot =
-                              FirebaseStorage.instance.ref();
-                          Reference referenceDirImages =
-                              referenceRoot.child('images');
-
-                          //Create a reference for the image to be stored
-                          Reference referenceImageToUpload =
-                              referenceDirImages.child(uniqueFileName);
-
-                          //Handle errors/success
-                          try {
-                            //Store the file
-                            await referenceImageToUpload
-                                .putFile(File(file.path));
-                            //Success: get the download URL
-                            imageUrl =
-                                await referenceImageToUpload.getDownloadURL();
-                          } catch (error) {
-                            //Some error occurred
-                          }
+                          uploadFile();
                         },
                         icon: Icon(Icons.camera_alt)),
                   ),
@@ -113,21 +153,33 @@ class _AddItemState extends State<AddItem> {
                           // String itemQuantity = _controllerQuantity.text;
 
                           //Create a Map of data
-                          Map<String, String> dataToSend = {
-                            'student-id': itemName,
-                            'image': imageUrl
-                          };
-
-                          //Add a new item
-                          _reference.add(dataToSend);
+                          if (imageUrl != "") {
+                            Map<String, String> dataToSend = {
+                              'student-id': itemName,
+                              'image': imageUrl
+                            };
+                            _reference.add(dataToSend);
+                          } else {
+                            // Display toast box error for image not uploaded
+                            Fluttertoast.showToast(
+                              msg: 'Error: Image not uploaded',
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.TOP,
+                            );
+                            return;
+                          }
+                          ;
                         }
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 95),
                         child: Text('Submit'),
                       )),
+
+                  // progressIndicator(),
                 ],
               ),
+              buildProgress(),
             ],
           ),
         ),

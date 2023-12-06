@@ -9,15 +9,18 @@ class AttendanceSystemTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Attendance System',
-          ),
-          centerTitle: true,
-          elevation: 0,
+    return Container(
+      child: Scaffold(
+          body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ItemList()));
+          },
+          child: Text("Hello!"),
         ),
-        body: ItemList());
+      )),
+    );
   }
 
   Widget informationText() {
