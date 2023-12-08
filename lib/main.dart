@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +18,14 @@ final storage = FirebaseStorage.instance;
 final FirebaseAuth auth = FirebaseAuth.instance;
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // INITIALIZE FIREBASE
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  if (kDebugMode) {
+    print("Firebase initalized successfully!");
+  }
   // INITIALIZE CAMERAS
   try {
     WidgetsFlutterBinding.ensureInitialized();
@@ -26,12 +35,17 @@ Future<void> main() async {
       print('Camera error: ${e.code}, ${e.description}');
     }
   }
-  // INITIALIZE FIREBASE
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
+  var host = '192.168.68.103';
   if (kDebugMode) {
-    print("Firebase initalized successfully!");
+    try {
+      FirebaseFirestore.instance.useFirestoreEmulator(host, 9150);
+      await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+      await FirebaseStorage.instance.useStorageEmulator(host, 9199);
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
   }
 
   //

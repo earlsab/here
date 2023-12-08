@@ -34,10 +34,12 @@ class RouterPage extends StatelessWidget {
                   // const CustomCard('Camera', CameraApp()),
                   CustomCard('ML-Kit Implementation', FaceDetectorView()),
                   CustomCard(
-                      'Camera Save',
-                      TakePictureScreen(
-                        camera: cameras.first,
-                      )),
+                    'Camera Save',
+                    TakePictureScreen(
+                      camera: cameras.first,
+                    ),
+                    featureCompleted: false,
+                  ),
                   CustomCard('Attendance System Prototype (w AWS Integration)',
                       AttendanceSystemTest()),
                   // CustomCard('Home', HomeScreen())

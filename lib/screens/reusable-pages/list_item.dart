@@ -17,6 +17,7 @@ class ItemList extends StatelessWidget {
   //_reference.snapshots()--> Stream<QuerySnapshot> -- realtime updates
   late Stream<QuerySnapshot> _stream;
 
+  // FIXME: App fails when there's no internet
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,24 +53,39 @@ class ItemList extends StatelessWidget {
                   //Get the item at this index
                   Map thisItem = items[index];
                   //REturn the widget for the list items
-                  return ListTile(
-                    title: Text(
-                      '${thisItem['data']['student-id']}',
-                      style: TextStyle(fontSize: 24), // Set the font size to 24
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                      ),
                     ),
-                    subtitle: Text(getFileName(thisItem['data']['image'])),
-                    // subtitle: Text('${thisItem['quantity']}'),
-                    leading: Container(
-                      height: 80,
-                      width: 80,
-                      child: thisItem['data'].containsKey('image')
-                          ? Image.network('${thisItem['data']['image']}')
-                          : Container(),
+                    child: ListTile(
+                      title: Text(
+                        '${thisItem['data']['student-id']}',
+                        style:
+                            TextStyle(fontSize: 24), // Set the font size to 24
+                      ),
+                      // subtitle: Text(getFileName(thisItem['data']['image'])),
+                      // subtitle: Text('${thisItem['quantity']}'),
+                      leading: Container(
+                        height: 80,
+                        width: 80,
+                        child: thisItem['data'].containsKey('image')
+                            ? Image.network('${thisItem['data']['image']}')
+                            : Container(),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ItemDetails(thisItem)));
+                      },
                     ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ItemDetails(thisItem)));
-                    },
                   );
                 });
           }

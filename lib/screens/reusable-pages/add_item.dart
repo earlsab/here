@@ -72,6 +72,7 @@ class _AddItemState extends State<AddItem> {
 
       await uploadTask;
       imageUrl = await referenceImageToUpload.getDownloadURL();
+      print(imageUrl);
     } catch (error) {
       //Some error occurred
     }
@@ -156,7 +157,8 @@ class _AddItemState extends State<AddItem> {
                           if (imageUrl != "") {
                             Map<String, String> dataToSend = {
                               'student-id': itemName,
-                              'image': imageUrl
+                              'image': imageUrl,
+                              'photo_validation_status': "for-processing"
                             };
                             _reference.add(dataToSend);
                           } else {
