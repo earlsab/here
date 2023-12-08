@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:here/pages/bottomsheet.dart';
 import 'package:here/screens/camera.dart';
 import 'package:here/screens/second_route.dart';
+import 'package:here/pages/login_page.dart';
 
 class FirstRoute extends StatelessWidget {
   const FirstRoute({super.key});
@@ -29,6 +30,7 @@ class FirstRoute extends StatelessWidget {
                       CustomCard('Second Route Test', SecondRoute()),
                       CustomCard('Camera', CameraExampleHome()),
                       CustomCard('Login', BottomSheets()),
+                      CustomCard('Login Page 2', LoginPage()),
                     ],
                   ),
                   SizedBox(

@@ -1,27 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sign_in_button/sign_in_button.dart';
+import 'package:here/pages/homepage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _MyWidgetState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _MyWidgetState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? _user;
-
-  @override
-  void initState() {
-    super.initState();
-    _auth.authStateChanges().listen((event) {
-      setState(() {
-        _user = event;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,33 +19,32 @@ class _MyWidgetState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text("Google SignIn"),
       ),
-      body: _user != null ? _userInfo() : _googleSignInButton(),
-    );
-  }
+      body: Center(
+        child: SizedBox(
+          width: 230.0, // Set the width of the button
+          height: 50.0,
+          child: SignInButton(
+            Buttons.google,
+            onPressed: () async {
+              try {
+                GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
+                UserCredential userCredential = await _auth.signInWithProvider(googleAuthProvider);
 
-  Widget _googleSignInButton() {
-    return Center(
-      child: SizedBox(
-        height: 50,
-        child: SignInButton(
-          Buttons.google,
-          text: "Sign up with Google",
-          onPressed: _handleGoogleSignIn,
+                // After successful login, navigate to HomePage
+                    if (userCredential.user != null) {
+                // ignore: use_build_context_synchronously
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
+              }
+              } catch (error) {
+                // Handle error
+              }
+            },
+          ),
         ),
       ),
     );
-  }
-
-  Widget _userInfo() {
-    return const SizedBox();
-  }
-
-  void _handleGoogleSignIn() {
-    try {
-      GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
-      _auth.signInWithProvider(googleAuthProvider);
-    } catch (error) {
-      debugPrint(error.toString());
-    } 
   }
 }
