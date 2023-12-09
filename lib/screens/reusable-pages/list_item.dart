@@ -5,6 +5,7 @@ import 'package:here/screens/reusable-pages/details_item.dart';
 import 'package:here/util/file_name_getter.dart';
 import 'add_item.dart';
 
+// FIXME: Broken on debug mode. Some cache does not refresh and data lingers
 class ItemList extends StatelessWidget {
   ItemList({Key? key}) : super(key: key) {
     _stream = _reference.snapshots();

@@ -43,6 +43,7 @@ class _AddItemState extends State<AddItem> {
     //Install image_picker
     //Import the corresponding library
     ImagePicker imagePicker = ImagePicker();
+    // TODO: AWS Has a 5MB Limit. Ensure photo is small in size.
     XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
     print('${file?.path}');
 
@@ -150,17 +151,19 @@ class _AddItemState extends State<AddItem> {
                   ElevatedButton(
                       onPressed: () async {
                         if (key.currentState!.validate()) {
-                          String itemName = _controllerName.text;
+                          String studentId = _controllerName.text;
                           // String itemQuantity = _controllerQuantity.text;
 
                           //Create a Map of data
                           if (imageUrl != "") {
                             Map<String, String> dataToSend = {
-                              'student-id': itemName,
+                              'student-id': studentId,
                               'image': imageUrl,
                               'photo_validation_status': "for-processing"
                             };
-                            _reference.add(dataToSend);
+                            // Customize the document ID here
+                            String customDocumentId = studentId;
+                            _reference.doc(customDocumentId).set(dataToSend);
                           } else {
                             // Display toast box error for image not uploaded
                             Fluttertoast.showToast(

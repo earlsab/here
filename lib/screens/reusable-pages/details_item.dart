@@ -5,7 +5,6 @@ import 'package:here/screens/reusable-pages/edit_item.dart';
 class ItemDetails extends StatelessWidget {
   Map item;
   late DocumentReference _reference;
-
   //_reference.get()  --> returns Future<DocumentSnapshot>
   //_reference.snapshots() --> Stream<DocumentSnapshot>
   late Future<DocumentSnapshot>? _futureData;
@@ -79,6 +78,18 @@ class ItemDetails extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Column(
+                        children: [
+                          Text('Matched ID: ${data['matched_id']}'),
+                          Text(
+                              'Photo Validation Status: ${data['photo_validation_status']}'),
+                          Text('New Face: ${data['new_face']}'),
+                        ],
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                      ),
                     ),
                   ],
                 );
