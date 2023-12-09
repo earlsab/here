@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:here/functions/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:here/screens/login_page.dart';
+import 'package:here/screens/notesapp_login_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

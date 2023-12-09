@@ -1,14 +1,11 @@
 import 'package:camera/camera.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:here/screens/router.dart';
-import 'package:here/screens/testing/pages/login_page.dart';
-// import 'package:here/pages/bottomsheet.dart';
-// import 'package:here/screens/testing/router.dart';
+import 'package:here/screens/testing/router.dart';
 import 'firebase_options.dart';
 
 // late List<CameraDescription> cameras;
@@ -37,17 +34,17 @@ Future<void> main() async {
     }
   }
 
-  var host = '192.168.68.103';
-  if (kDebugMode) {
-    try {
-      FirebaseFirestore.instance.useFirestoreEmulator(host, 9150);
-      await FirebaseAuth.instance.useAuthEmulator(host, 9099);
-      await FirebaseStorage.instance.useStorageEmulator(host, 9199);
-    } catch (e) {
-      // ignore: avoid_print
-      print(e);
-    }
-  }
+  // var host = '192.168.68.103';
+  // if (kDebugMode) {
+  //   try {
+  //     FirebaseFirestore.instance.useFirestoreEmulator(host, 9150);
+  //     await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+  //     await FirebaseStorage.instance.useStorageEmulator(host, 9199);
+  //   } catch (e) {
+  //     // ignore: avoid_print
+  //     print(e);
+  //   }
+  // }
 
   //
   runApp(const MyApp());
@@ -61,7 +58,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: "Here!",
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: RouterPage(),
     );
   }
 }

@@ -42,6 +42,7 @@ class RouterPage extends StatelessWidget {
                   ),
                   CustomCard('Attendance System Prototype (w AWS Integration)',
                       AttendanceSystemTest()),
+                  CustomCard('Notes App', LoginPage()),
                   // CustomCard('Home', HomeScreen())
                 ],
               ),
