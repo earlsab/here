@@ -29,8 +29,7 @@ class FirstRoute extends StatelessWidget {
                     children: [
                       CustomCard('Second Route Test', SecondRoute()),
                       CustomCard('Camera', CameraExampleHome()),
-                      CustomCard('Login', BottomSheets()),
-                      CustomCard('Login Page 2', LoginPage()),
+                      CustomCard('Notes App', LoginPage()),
                     ],
                   ),
                   SizedBox(
