@@ -132,12 +132,11 @@ class FirestoreService {
     // Save user data to Firestore
    Future<void> addUser(UserCredential userCredential) {
     return FirebaseFirestore.instance
-    .collection('notes')
+    .collection('users')
     .doc(userCredential.user!.uid)
     .set({
-      'email': userCredential.user!.email,
       'uid': userCredential.user!.uid,
-      'displayName': userCredential.user!.displayName,
+      'email': userCredential.user!.email,
       'photoURL': userCredential.user!.photoURL,
     }, SetOptions(merge: true));
   }
