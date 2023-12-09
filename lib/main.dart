@@ -2,7 +2,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:here/pages/bottomsheet.dart';
 import 'package:here/screens/router.dart';
 import 'firebase_options.dart';
 

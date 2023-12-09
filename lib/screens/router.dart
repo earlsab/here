@@ -1,10 +1,10 @@
 // https://docs.flutter.dev/cookbook/navigation/navigation-basics
 // Routing style from https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/example/lib/main.dart
 import 'package:flutter/material.dart';
-import 'package:here/pages/bottomsheet.dart';
+import 'package:here/screens/bottomsheet.dart';
 import 'package:here/screens/camera.dart';
 import 'package:here/screens/second_route.dart';
-import 'package:here/pages/login_page.dart';
+import 'package:here/screens/login_page.dart';
 
 class FirstRoute extends StatelessWidget {
   const FirstRoute({super.key});
