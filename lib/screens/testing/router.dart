@@ -8,7 +8,7 @@ import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/testing/attendance_system_test.dart';
 import 'package:here/screens/testing/camera_test.dart';
 import 'package:here/screens/second_route.dart';
-import 'package:here/screens/testing/pages/login_page.dart';
+import 'package:here/screens/notesapp_login_page.dart';
 import 'package:here/widgets/custom_card.dart';
 
 class RouterPage extends StatelessWidget {
