@@ -59,7 +59,7 @@ class RouterPage extends StatelessWidget {
                 child: Center(
                     child: Text("Logged in as ${auth.currentUser?.email}")),
               ),
-              signoutButton(),
+              //signoutButton(),
             ],
           ),
         ),
