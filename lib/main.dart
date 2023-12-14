@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import "package:here/screens/login_page.dart";
+import 'package:here/screens/navigation_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
-// import 'package:here/pages/bottomsheet.dart';
-// import 'package:here/screens/testing/router.dart';
 import 'firebase_options.dart';
 
 // late List<CameraDescription> cameras;
@@ -59,21 +59,21 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: "Here!",
       debugShowCheckedModeBanner: false,
-      home: Main(),
+      home: LoginPage(),
     );
   }
 }
 
 class Main extends StatelessWidget {
-  const Main({Key? key}) : super(key: key);
+  const Main({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Here"),
+        title: const Text("Here"),
       ),
-      body: Center(
+      body: const Center(
         child: Text("Test!"),
       ),
     );

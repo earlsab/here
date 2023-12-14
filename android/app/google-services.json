@@ -47,10 +47,46 @@
               "client_type": 3
             },
             {
-              "client_id": "623021677356-q3jvmm5oqs550k14kpcaiioj1hhqcraj.apps.googleusercontent.com",
+              "client_id": "623021677356-l6bg029qhm6p0rn7vef5e0hjcsij56hb.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.here"
+                "bundle_id": "com.example.hereAppScreens"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623021677356:android:d1295ba90a95383f0aaa89",
+        "android_client_info": {
+          "package_name": "com.example.here_app_screens"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "623021677356-fj6fktubgd11ie6ao5lbju5ro75gj689.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6tNhvAcQHcP21Zy6SNKgOOsxhVOPN2nY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "623021677356-fj6fktubgd11ie6ao5lbju5ro75gj689.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "623021677356-l6bg029qhm6p0rn7vef5e0hjcsij56hb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hereAppScreens"
               }
             }
           ]
