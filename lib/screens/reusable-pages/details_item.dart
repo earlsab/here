@@ -160,6 +160,49 @@ class _ItemDetailsState extends State<ItemDetails> {
                         ),
                       ],
                     ),
+                    ToggleButtons(
+                      children: [
+                        Text('in'),
+                        Text('out'),
+                      ],
+                      isSelected: [
+                        data['attendance_status'] == 'IN',
+                        data['attendance_status'] == 'OUT',
+                      ],
+                      // TODO: Set values for late according event details
+                      // direction:
+                      //     vertical ? Axis.vertical : Axis.horizontal,
+                      onPressed: (int index) {
+                        setState(() {
+                          // The button that is tapped is set to true, and the others to false.
+                          for (int i = 0; i < _selected.length; i++) {
+                            _selected[i] = i == index;
+                            if (_selected[0]) {
+                              widget._reference.update({
+                                'attendance_status': 'IN',
+                                'Timestamp_Last_Attendance_Status':
+                                    DateTime.now(),
+                              });
+                            } else {
+                              widget._reference.update({
+                                'attendance_status': 'OUT',
+                                'Timestamp_Last_Attendance_Status':
+                                    DateTime.now(),
+                              });
+                            }
+                          }
+                        });
+                      },
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      selectedBorderColor: Colors.red[700],
+                      selectedColor: Colors.white,
+                      fillColor: Colors.red[200],
+                      color: Colors.red[400],
+                      constraints: const BoxConstraints(
+                        minHeight: 40.0,
+                        minWidth: 80.0,
+                      ),
+                    ),
                     Align(
                       alignment: Alignment.center,
                       child: Column(
