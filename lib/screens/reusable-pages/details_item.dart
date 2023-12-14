@@ -78,65 +78,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle button 1 press
-                                widget._reference.update({
-                                  'verification_status':
-                                      'for-processing-user-list',
-                                });
-                              },
-                              child: Text('List Users'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle button 1 press
-                                widget._reference.update({
-                                  'verification_status':
-                                      'for-processing-user-delete',
-                                });
-                              },
-                              child: Text('Delete User'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                widget._reference.update({
-                                  'verification_status':
-                                      'for-processing-matched-user-delete',
-                                });
-                                // Handle button 2 press
-                              },
-                              child: Text('Delete Matched User'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                widget._reference.update({
-                                  'verification_status':
-                                      'for-processing-purge-collection',
-                                });
-                                // Handle button 2 press
-                              },
-                              child: Text('Delete Collection'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                widget._reference.update({
-                                  'verification_status':
-                                      'for-processing-user-associate',
-                                });
-                              },
-                              child: Text('Associate Face'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                widget._reference.update({
-                                  'verification_status': 'for-processing',
-                                });
-                              },
-                              child: Text('Re-process'),
-                            ),
-                          ],
+                          children: [],
                         ),
                       ),
 
@@ -266,7 +208,9 @@ class _ItemDetailsState extends State<ItemDetails> {
                                   data['attendance_status'] == "IN",
                                   data['attendance_status'] == "OUT"
                                 ];
-                                if (!_selected[index]) {
+                                if (!_selected[index] &&
+                                    (data['verification_status'] !=
+                                        'for-action')) {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -358,6 +302,14 @@ class _ItemDetailsState extends State<ItemDetails> {
                                         return Container();
                                       }
                                     },
+                                  );
+                                } else if (data['verification_status'] ==
+                                    'for-action') {
+                                  Fluttertoast.showToast(
+                                    msg:
+                                        'Attendance cannot be set. Unmatched User! Consider Associating Face to User or Deleting Matched User.',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.TOP,
                                   );
                                 }
                               },
@@ -568,6 +520,96 @@ class _ItemDetailsState extends State<ItemDetails> {
                           ),
                         ),
                       ],
+                    ),
+                    SingleChildScrollView(
+                      child: ExpansionTile(
+                        title: Text('Advanced Settings'),
+                        children: [
+                          ListTile(
+                            title: Text('List Users'),
+                            onTap: () {
+                              widget._reference.update({
+                                'verification_status':
+                                    'for-processing-user-list',
+                              });
+                              Fluttertoast.showToast(
+                                msg: "Check Data Details for Output",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Text('Delete User'),
+                            onTap: () {
+                              widget._reference.update({
+                                'verification_status':
+                                    'for-processing-user-delete',
+                              });
+                              Fluttertoast.showToast(
+                                msg: "Check Data Details for Output",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Text('Delete Matched User'),
+                            onTap: () {
+                              widget._reference.update({
+                                'verification_status':
+                                    'for-processing-matched-user-delete',
+                              });
+                              Fluttertoast.showToast(
+                                msg: "Check Data Details for Output",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Text('Delete Collection'),
+                            onTap: () {
+                              widget._reference.update({
+                                'verification_status':
+                                    'for-processing-purge-collection',
+                              });
+                              Fluttertoast.showToast(
+                                msg: "Check Data Details for Output",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Text('Associate Face'),
+                            onTap: () {
+                              widget._reference.update({
+                                'verification_status':
+                                    'for-processing-user-associate',
+                              });
+                              Fluttertoast.showToast(
+                                msg: "Check Data Details for Output",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Text('Re-process'),
+                            onTap: () {
+                              widget._reference.update({
+                                'verification_status': 'for-processing',
+                              });
+                              Fluttertoast.showToast(
+                                msg: "Check Data Details for Output",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 100.0),
                   ],
