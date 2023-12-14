@@ -69,6 +69,13 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Hello!");
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Here"),
+      ),
+      body: Center(
+        child: Text("Test!"),
+      ),
+    );
   }
 }
