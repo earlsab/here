@@ -160,7 +160,7 @@ class _AddItemState extends State<AddItem> {
                             Map<String, String> dataToSend = {
                               'student-id': studentId,
                               'image': imageUrl,
-                              'photo_validation_status': "for-processing",
+                              'validation_status': "for-processing",
                               'recorded_by': auth.currentUser?.email as String,
                             };
                             // Customize the document ID here

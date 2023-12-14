@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:here/screens/reusable-pages/edit_item.dart';
 
 // FIXME: Broken when put in horizontal mode
@@ -161,6 +162,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                       ],
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ToggleButtons(
                           isSelected: [
@@ -283,118 +285,138 @@ class _ItemDetailsState extends State<ItemDetails> {
                           isSelected: [
                             data['validation_status'] == 'FLAGGED',
                           ], // Update isSelected property to use _photoSelected list
-                          onPressed: (index) {
-                            var reason;
-                            List<bool> flagSelected = [
-                              data['validation_status'] == 'FLAGGED',
-                            ]; // Update _photoSelected list to match the number of buttons
-                            setState(() {
-                              for (int buttonIndex = 0;
-                                  buttonIndex < flagSelected.length;
-                                  buttonIndex++) {
-                                if (buttonIndex == index) {
-                                  flagSelected[buttonIndex] =
-                                      !flagSelected[buttonIndex];
-                                  if (flagSelected[buttonIndex]) {
-                                    if (data['validation_status'] !=
-                                        'FLAGGED') {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Confirmation'),
-                                            content: Column(
-                                              children: [
-                                                Text(
-                                                    'Are you sure you want to flag this item?'),
-                                                TextField(
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Reason',
-                                                  ),
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      if (value.isNotEmpty) {
-                                                        reason = value;
-                                                      }
-                                                    });
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                  if (reason.isNotEmpty) {
-                                                    widget._reference.update({
-                                                      'validation_status':
-                                                          'FLAGGED',
-                                                      'flag_reason': reason,
-                                                    });
-                                                  }
-                                                },
-                                                child: Text('Yes'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                  flagSelected[buttonIndex] =
-                                                      false;
-                                                },
-                                                child: Text('No'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    }
-                                  } else {
-                                    if (data['validation_status'] ==
-                                        'FLAGGED') {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Confirmation'),
-                                            content: Text(
-                                                'Are you sure you want to unflag this item?'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                  widget._reference.update({
-                                                    'validation_status':
-                                                        'for-action',
-                                                  });
-                                                },
-                                                child: Text('Yes'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                  flagSelected[buttonIndex] =
-                                                      true;
-                                                },
-                                                child: Text('No'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    }
-                                  }
-                                } else {
-                                  flagSelected[buttonIndex] = false;
+                          onPressed: data['validation_status'] == 'verified'
+                              ? (index) {
+                                  Fluttertoast.showToast(
+                                      msg: 'Error: Cannot flag this item',
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.TOP);
                                 }
-                              }
-                            });
-                          },
+                              : (index) {
+                                  var reason;
+                                  List<bool> flagSelected = [
+                                    data['validation_status'] == 'FLAGGED',
+                                  ]; // Update _photoSelected list to match the number of buttons
+                                  setState(() {
+                                    for (int buttonIndex = 0;
+                                        buttonIndex < flagSelected.length;
+                                        buttonIndex++) {
+                                      if (buttonIndex == index) {
+                                        flagSelected[buttonIndex] =
+                                            !flagSelected[buttonIndex];
+                                        if (flagSelected[buttonIndex]) {
+                                          if (data['validation_status'] !=
+                                              'FLAGGED') {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text('Confirmation'),
+                                                  content: Column(
+                                                    children: [
+                                                      Text(
+                                                          'Are you sure you want to flag this item?'),
+                                                      TextField(
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelText: 'Reason',
+                                                        ),
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            if (value
+                                                                .isNotEmpty) {
+                                                              reason = value;
+                                                            }
+                                                          });
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        if (reason.isNotEmpty) {
+                                                          widget._reference
+                                                              .update({
+                                                            'validation_status':
+                                                                'FLAGGED',
+                                                            'flag_reason':
+                                                                reason,
+                                                          });
+                                                        }
+                                                      },
+                                                      child: Text('Yes'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        flagSelected[
+                                                                buttonIndex] =
+                                                            false;
+                                                      },
+                                                      child: Text('No'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
+                                        } else {
+                                          if (data['validation_status'] ==
+                                              'FLAGGED') {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text('Confirmation'),
+                                                  content: Text(
+                                                      'Are you sure you want to unflag this item?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        widget._reference
+                                                            .update({
+                                                          'validation_status':
+                                                              'for-action',
+                                                        });
+                                                      },
+                                                      child: Text('Yes'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        flagSelected[
+                                                            buttonIndex] = true;
+                                                      },
+                                                      child: Text('No'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
+                                        }
+                                      } else {
+                                        flagSelected[buttonIndex] = false;
+                                      }
+                                    }
+                                  });
+                                },
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8)),
                           selectedBorderColor: Colors.red[700],
-                          selectedColor: Colors.white,
-                          fillColor: Colors.red[200],
-                          color: Colors.red[400],
+                          color: data['validation_status'] == 'verified'
+                              ? Colors.grey
+                              : Colors.red,
+                          fillColor: data['validation_status'] == 'verified'
+                              ? Colors.green[100]
+                              : Colors.red[100],
                           constraints: const BoxConstraints(
                             minHeight: 40.0,
                             minWidth: 80.0,
@@ -405,19 +427,26 @@ class _ItemDetailsState extends State<ItemDetails> {
                         ),
                       ],
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (var key in data.keys)
-                            if (key != 'cf_output')
-                              Text('$key: ${data[key]}\n'),
-                          if (data.containsKey('cf_output'))
-                            Text('cf_output: ${data['cf_output']}\n')
-                        ],
-                      ),
+                    SizedBox(height: 50.0),
+                    ExpansionTile(
+                      title: Text('Data Details'),
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              for (var key in data.keys)
+                                if (key != 'cf_output')
+                                  Text('$key: ${data[key]}\n'),
+                              if (data.containsKey('cf_output'))
+                                Text('cf_output: ${data['cf_output']}\n')
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 100.0),
                   ],
                 ),
               );
