@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
         children: <Widget>[
           Align(
             alignment: Alignment.center,
-            child: Image.asset('lib/images/loginlogo.png', height: 250),
+            child: Image.asset('assets/loginlogo.png', height: 250),
           ),
           Align(
             alignment: Alignment.bottomCenter,

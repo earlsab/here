@@ -10,7 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 // late List<CameraDescription> cameras;
-List<CameraDescription> cameras = <CameraDescription>[];
+// List<CameraDescription> cameras = <CameraDescription>[];
 
 // Google Cloud Server
 final storage = FirebaseStorage.instance;
@@ -26,14 +26,14 @@ Future<void> main() async {
     print("Firebase initalized successfully!");
   }
   // INITIALIZE CAMERAS
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    cameras = await availableCameras();
-  } on CameraException catch (e) {
-    if (kDebugMode) {
-      print('Camera error: ${e.code}, ${e.description}');
-    }
-  }
+  // try {
+  //   WidgetsFlutterBinding.ensureInitialized();
+  //   cameras = await availableCameras();
+  // } on CameraException catch (e) {
+  //   if (kDebugMode) {
+  //     print('Camera error: ${e.code}, ${e.description}');
+  //   }
+  // }
 
   var host = '192.168.68.103';
   if (kDebugMode) {
