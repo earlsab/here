@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/reusable-pages/edit_item.dart';
 
 // FIXME: Broken when put in horizontal mode
-class ItemDetails extends StatelessWidget {
+class ItemDetails extends StatefulWidget {
   Map item;
   late DocumentReference _reference;
-  //_reference.get()  --> returns Future<DocumentSnapshot>
-  //_reference.snapshots() --> Stream<DocumentSnapshot>
   late Future<DocumentSnapshot>? _futureData;
   late dynamic? data;
   ItemDetails(this.item, {Key? key}) : super(key: key) {
@@ -25,6 +23,16 @@ class ItemDetails extends StatelessWidget {
   }
 
   @override
+  State<ItemDetails> createState() => _ItemDetailsState();
+}
+
+class _ItemDetailsState extends State<ItemDetails> {
+  var vertical;
+
+  final List<bool> _selected = <bool>[false, false];
+
+  bool isImageVisible = true;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -33,22 +41,22 @@ class ItemDetails extends StatelessWidget {
           IconButton(
               onPressed: () {
                 //add the id to the map
-                data['id'] = item['id'];
+                widget.data['id'] = widget.item['id'];
 
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => EditItem(data)));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EditItem(widget.data)));
               },
               icon: Icon(Icons.edit)),
           IconButton(
               onPressed: () {
                 //Delete the item
-                _reference.delete();
+                widget._reference.delete();
               },
               icon: Icon(Icons.delete))
         ],
       ),
       body: StreamBuilder<DocumentSnapshot>(
-        stream: _reference.snapshots(),
+        stream: widget._reference.snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Text('Some error occurred ${snapshot.error}');
@@ -60,91 +68,114 @@ class ItemDetails extends StatelessWidget {
             DocumentSnapshot documentSnapshot = snapshot.data;
             // data = documentSnapshot.data() as Map;
             if (documentSnapshot.exists) {
-              if (data != null && data is Map<dynamic, dynamic>) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      if (true) // Add condition to show buttons
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Handle button 1 press
-                                  _reference.update({
-                                    'photo_validation_status':
-                                        'for-processing-user-delete',
-                                  });
-                                },
-                                child: Text('Delete User'),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  _reference.update({
-                                    'photo_validation_status':
-                                        'for-processing-purge-collection',
-                                  });
-                                  // Handle button 2 press
-                                },
-                                child: Text('Delete Collection'),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  _reference.update({
-                                    'photo_validation_status':
-                                        'for-processing-user-associate',
-                                  });
-                                },
-                                child: Text('Associate Face'),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  _reference.update({
-                                    'photo_validation_status': 'for-processing',
-                                  });
-                                },
-                                child: Text('Re-process'),
-                              ),
-                            ],
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    if (true) // Add condition to show buttons
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                // Handle button 1 press
+                                widget._reference.update({
+                                  'photo_validation_status':
+                                      'for-processing-user-delete',
+                                });
+                              },
+                              child: Text('Delete User'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                widget._reference.update({
+                                  'photo_validation_status':
+                                      'for-processing-purge-collection',
+                                });
+                                // Handle button 2 press
+                              },
+                              child: Text('Delete Collection'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                widget._reference.update({
+                                  'photo_validation_status':
+                                      'for-processing-user-associate',
+                                });
+                              },
+                              child: Text('Associate Face'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                widget._reference.update({
+                                  'photo_validation_status': 'for-processing',
+                                });
+                              },
+                              child: Text('Re-process'),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    Row(
+                      children: [
+                        // ...
+
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              isImageVisible =
+                                  !isImageVisible; // Toggle the image visibility
+                            });
+                          },
+                          child: Text(isImageVisible
+                              ? 'Collapse Image'
+                              : 'Expand Image'), // Change button text based on image visibility
+                        ),
+                      ],
+                    ),
+
+                    // ...
+
+                    Visibility(
+                      visible:
+                          isImageVisible, // Control the visibility of the image
+                      child: widget.item['data'].containsKey('image')
+                          ? Image.network('${widget.item['data']['image']}')
+                          : Container(),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            '${data['student-id']}',
+                            style: TextStyle(fontSize: 20),
+                            textAlign:
+                                TextAlign.left, // Set the desired font size
                           ),
                         ),
-                      item['data'].containsKey('image')
-                          ? Image.network('${item['data']['image']}')
-                          : Container(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              '${data['student-id']}',
-                              style: TextStyle(fontSize: 20),
-                              textAlign:
-                                  TextAlign.left, // Set the desired font size
-                            ),
-                          ),
+                          for (var key in data.keys)
+                            if (key != 'cf_output')
+                              Text('$key: ${data[key]}\n'),
+                          if (data.containsKey('cf_output'))
+                            Text('cf_output: ${data['cf_output']}\n')
                         ],
                       ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Column(
-                          children: [
-                            Text('Matched ID: ${data['matched_id']}'),
-                            Text(
-                                'Photo Validation Status: ${data['photo_validation_status']}'),
-                            Text('New Face: ${data['new_face']}'),
-                            Text('CF OUTPUT: ${data['cf_output']}'),
-                          ],
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }
+                    ),
+                  ],
+                ),
+              );
             }
           }
           return Center(child: CircularProgressIndicator());
