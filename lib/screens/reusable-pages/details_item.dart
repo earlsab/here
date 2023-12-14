@@ -38,7 +38,7 @@ class _ItemDetailsState extends State<ItemDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Item details'),
+        title: Text('Attendance details'),
         actions: [
           IconButton(
               onPressed: () {
