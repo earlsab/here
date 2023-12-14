@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:here/screens/testing/pages/login_page.dart';
 // import 'package:here/pages/bottomsheet.dart';
 // import 'package:here/screens/testing/router.dart';
 import 'firebase_options.dart';
@@ -60,7 +59,16 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: "Here!",
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: Main(),
     );
+  }
+}
+
+class Main extends StatelessWidget {
+  const Main({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text("Hello!");
   }
 }
