@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:here/screens/reusable-pages/edit_item.dart';
 
+// FIXME: Broken when put in horizontal mode
 class ItemDetails extends StatelessWidget {
   Map item;
   late DocumentReference _reference;
@@ -58,40 +59,88 @@ class ItemDetails extends StatelessWidget {
             // data = documentSnapshot.data() as Map;
             if (documentSnapshot.exists) {
               if (data != null && data is Map<dynamic, dynamic>) {
-                return Column(
-                  children: [
-                    item['data'].containsKey('image')
-                        ? Image.network('${item['data']['image']}')
-                        : Container(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            '${data['student-id']}',
-                            style: TextStyle(fontSize: 20),
-                            textAlign:
-                                TextAlign.left, // Set the desired font size
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      if (true) // Add condition to show buttons
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  // Handle button 1 press
+                                  _reference.update({
+                                    'photo_validation_status':
+                                        'for-processing-user-delete',
+                                  });
+                                },
+                                child: Text('Delete User'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _reference.update({
+                                    'photo_validation_status':
+                                        'for-processing-purge-collection',
+                                  });
+                                  // Handle button 2 press
+                                },
+                                child: Text('Delete Collection'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _reference.update({
+                                    'photo_validation_status':
+                                        'for-processing-user-associate',
+                                  });
+                                },
+                                child: Text('Associate Face'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _reference.update({
+                                    'photo_validation_status': 'for-processing',
+                                  });
+                                },
+                                child: Text('Re-process'),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          Text('Matched ID: ${data['matched_id']}'),
-                          Text(
-                              'Photo Validation Status: ${data['photo_validation_status']}'),
-                          Text('New Face: ${data['new_face']}'),
-                        ],
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      item['data'].containsKey('image')
+                          ? Image.network('${item['data']['image']}')
+                          : Container(),
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                  ],
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              '${data['student-id']}',
+                              style: TextStyle(fontSize: 20),
+                              textAlign:
+                                  TextAlign.left, // Set the desired font size
+                            ),
+                          ),
+                        ],
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            Text('Matched ID: ${data['matched_id']}'),
+                            Text(
+                                'Photo Validation Status: ${data['photo_validation_status']}'),
+                            Text('New Face: ${data['new_face']}'),
+                            Text('CF OUTPUT: ${data['cf_output']}'),
+                          ],
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }
             }

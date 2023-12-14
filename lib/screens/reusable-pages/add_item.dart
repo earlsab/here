@@ -167,7 +167,7 @@ class _AddItemState extends State<AddItem> {
                           } else {
                             // Display toast box error for image not uploaded
                             Fluttertoast.showToast(
-                              msg: 'Error: Image not uploaded',
+                              msg: 'Error: Image not yet uploaded',
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.TOP,
                             );
