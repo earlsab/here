@@ -47,14 +47,16 @@ class ItemDetails extends StatelessWidget {
               icon: Icon(Icons.delete))
         ],
       ),
-      body: FutureBuilder<DocumentSnapshot>(
-        future: _futureData,
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: _reference.snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Text('Some error occurred ${snapshot.error}');
           }
 
           if (snapshot.hasData) {
+            Map<String, dynamic> data =
+                snapshot.data?.data() as Map<String, dynamic>;
             DocumentSnapshot documentSnapshot = snapshot.data;
             // data = documentSnapshot.data() as Map;
             if (documentSnapshot.exists) {
