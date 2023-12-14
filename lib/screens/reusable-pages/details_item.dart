@@ -62,7 +62,7 @@ class _ItemDetailsState extends State<ItemDetails> {
             return Text('Some error occurred ${snapshot.error}');
           }
 
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data?.data() != null) {
             Map<String, dynamic> data =
                 snapshot.data?.data() as Map<String, dynamic>;
             DocumentSnapshot documentSnapshot = snapshot.data;
@@ -161,10 +161,6 @@ class _ItemDetailsState extends State<ItemDetails> {
                       ],
                     ),
                     ToggleButtons(
-                      children: [
-                        Text('in'),
-                        Text('out'),
-                      ],
                       isSelected: [
                         data['attendance_status'] == 'IN',
                         data['attendance_status'] == 'OUT',
@@ -173,25 +169,91 @@ class _ItemDetailsState extends State<ItemDetails> {
                       // direction:
                       //     vertical ? Axis.vertical : Axis.horizontal,
                       onPressed: (int index) {
-                        setState(() {
-                          // The button that is tapped is set to true, and the others to false.
-                          for (int i = 0; i < _selected.length; i++) {
-                            _selected[i] = i == index;
-                            if (_selected[0]) {
-                              widget._reference.update({
-                                'attendance_status': 'IN',
-                                'Timestamp_Last_Attendance_Status':
-                                    DateTime.now(),
-                              });
-                            } else {
-                              widget._reference.update({
-                                'attendance_status': 'OUT',
-                                'Timestamp_Last_Attendance_Status':
-                                    DateTime.now(),
-                              });
-                            }
-                          }
-                        });
+                        if (!_selected[index]) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              var minutes = null;
+                              var timeout = null;
+                              var attendanceConfirmationText =
+                                  "Are you sure you want to change the attendance status?";
+
+                              if (data['attendance_status'] != null) {
+                                var timestamp =
+                                    data['Timestamp_Last_Attendance_Status'];
+                                var dateTime = timestamp.toDate();
+                                var now = DateTime.now();
+                                var difference = now.difference(dateTime);
+                                var hours = difference.inHours;
+                                var minutes = difference.inMinutes;
+                                var seconds = difference.inSeconds;
+                                if (data['attendance_status'] == 'OUT') {
+                                  if (hours > 0) {
+                                    attendanceConfirmationText =
+                                        "$attendanceConfirmationText This person has been 'OUT' for ${hours.toString()} hour/s";
+                                  } else if (minutes > 0) {
+                                    attendanceConfirmationText =
+                                        "$attendanceConfirmationText This person has been 'OUT' for ${minutes.toString()} minute/s";
+                                  } else if (seconds > 0) {
+                                    attendanceConfirmationText =
+                                        "$attendanceConfirmationText This person has been 'OUT' for ${seconds.toString()} seconds/s";
+                                  }
+                                }
+                              }
+
+                              // var timeOut = DateTime.now().difference(timestamps);
+                              if (!_selected[index]) {
+                                return AlertDialog(
+                                  title: Text('Confirmation'),
+                                  content: Text(attendanceConfirmationText),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        setState(() {
+                                          // The button that is tapped is set to true, and the others to false.
+                                          for (int i = 0;
+                                              i < _selected.length;
+                                              i++) {
+                                            _selected[i] = i == index;
+                                            if (_selected[0]) {
+                                              if (data['attendance_status'] !=
+                                                  'IN') {
+                                                widget._reference.update({
+                                                  'attendance_status': 'IN',
+                                                  'Timestamp_Last_Attendance_Status':
+                                                      DateTime.now(),
+                                                });
+                                              }
+                                            } else {
+                                              if (data['attendance_status'] !=
+                                                  'OUT') {
+                                                widget._reference.update({
+                                                  'attendance_status': 'OUT',
+                                                  'Timestamp_Last_Attendance_Status':
+                                                      DateTime.now(),
+                                                });
+                                              }
+                                            }
+                                          }
+                                        });
+                                      },
+                                      child: Text('Yes'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('No'),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return Container();
+                              }
+                            },
+                          );
+                        }
                       },
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                       selectedBorderColor: Colors.red[700],
@@ -202,6 +264,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                         minHeight: 40.0,
                         minWidth: 80.0,
                       ),
+                      children: [
+                        Text('in'),
+                        Text('out'),
+                      ],
                     ),
                     Align(
                       alignment: Alignment.center,

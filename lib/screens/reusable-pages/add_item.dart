@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:here/main.dart';
 import 'package:here/screens/reusable-pages/wait_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -159,7 +160,8 @@ class _AddItemState extends State<AddItem> {
                             Map<String, String> dataToSend = {
                               'student-id': studentId,
                               'image': imageUrl,
-                              'photo_validation_status': "for-processing"
+                              'photo_validation_status': "for-processing",
+                              'recorded_by': auth.currentUser?.email as String,
                             };
                             // Customize the document ID here
                             String customDocumentId = studentId;
