@@ -160,12 +160,13 @@ class _AddItemState extends State<AddItem> {
                             Map<String, String> dataToSend = {
                               'student-id': studentId,
                               'image': imageUrl,
-                              'validation_status': "for-processing",
+                              'verification_status': "for-processing",
                               'recorded_by': auth.currentUser?.email as String,
                             };
                             // Customize the document ID here
                             String customDocumentId = studentId;
                             _reference.doc(customDocumentId).set(dataToSend);
+                            Navigator.of(context).pop();
                           } else {
                             // Display toast box error for image not uploaded
                             Fluttertoast.showToast(

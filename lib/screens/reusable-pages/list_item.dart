@@ -54,39 +54,28 @@ class ItemList extends StatelessWidget {
                   //Get the item at this index
                   Map thisItem = items[index];
                   //REturn the widget for the list items
-                  return Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: Colors.grey,
-                          width: 1.0,
+                  return Column(
+                    children: [
+                      ListTile(
+                        title: Text(
+                          '${thisItem['data']['student-id']}',
+                          style: TextStyle(
+                              fontSize: 24), // Set the font size to 24
                         ),
-                        bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1.0,
+                        leading: Container(
+                          height: 80,
+                          width: 80,
+                          child: thisItem['data'].containsKey('image')
+                              ? Image.network('${thisItem['data']['image']}')
+                              : Container(),
                         ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ItemDetails(thisItem)));
+                        },
                       ),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        '${thisItem['data']['student-id']}',
-                        style:
-                            TextStyle(fontSize: 24), // Set the font size to 24
-                      ),
-                      // subtitle: Text(getFileName(thisItem['data']['image'])),
-                      // subtitle: Text('${thisItem['quantity']}'),
-                      leading: Container(
-                        height: 80,
-                        width: 80,
-                        child: thisItem['data'].containsKey('image')
-                            ? Image.network('${thisItem['data']['image']}')
-                            : Container(),
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ItemDetails(thisItem)));
-                      },
-                    ),
+                      Divider(), // Add a divider
+                    ],
                   );
                 });
           }
