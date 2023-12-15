@@ -4,13 +4,21 @@ import 'package:here/screens/text-effects/custom_animate_border.dart';
 class AnimatedTextField extends StatefulWidget {
   final String label;
   final Widget? suffix;
-  const AnimatedTextField({super.key, required this.label, required this.suffix, required TextEditingController controller});
+  final TextEditingController controller; // Add this line
+
+  const AnimatedTextField({
+    super.key,
+    required this.label,
+    required this.suffix,
+    required this.controller, // Modify this line
+  });
 
   @override
   AnimatedTextFieldState createState() => AnimatedTextFieldState();
 }
 
-class AnimatedTextFieldState extends State<AnimatedTextField> with SingleTickerProviderStateMixin {
+class AnimatedTextFieldState extends State<AnimatedTextField>
+    with SingleTickerProviderStateMixin {
   AnimationController? _controller;
 
   late Animation<double> alpha;
@@ -26,8 +34,7 @@ class AnimatedTextFieldState extends State<AnimatedTextField> with SingleTickerP
     final Animation<double> curve =
         CurvedAnimation(parent: _controller!, curve: Curves.easeInOut);
     alpha = Tween(begin: 0.0, end: 1.0).animate(curve);
-    
-    // controller?.forward();
+
     _controller?.addListener(() {
       setState(() {});
     });
@@ -38,7 +45,6 @@ class AnimatedTextFieldState extends State<AnimatedTextField> with SingleTickerP
         _controller?.reverse();
       }
     });
-    super.initState();
   }
 
   @override
@@ -61,12 +67,18 @@ class AnimatedTextFieldState extends State<AnimatedTextField> with SingleTickerP
         child: CustomPaint(
           painter: CustomAnimateBorder(alpha.value),
           child: TextField(
+            controller: widget.controller, // Add this line
             focusNode: focusNode,
             decoration: InputDecoration(
-              label: Text(widget.label, style: const TextStyle(color: Color.fromARGB(255, 171, 171, 171),),),
+              label: Text(
+                widget.label,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 171, 171, 171),
+                ),
+              ),
               border: InputBorder.none,
               contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               suffixIcon: widget.suffix,
             ),
           ),
