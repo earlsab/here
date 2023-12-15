@@ -197,53 +197,33 @@ class _GroupPageState extends State<GroupPage> {
                     ),
                   ],
                 ),
-StreamBuilder<List<DocumentSnapshot>>(
-  stream: firestoreService.getGroupsStream(),
-  builder: (context, snapshot) {
-    if (snapshot.hasData) {
-      List<DocumentSnapshot> groupsList = snapshot.data!;
+      StreamBuilder<List<DocumentSnapshot>>(
+        stream: firestoreService.getGroupsStream(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<DocumentSnapshot> groupsList = snapshot.data!;
 
-      return Expanded(
-        child: ListView.builder(
-          itemCount: groupsList.length,
-          itemBuilder: (context, index) {
-            DocumentSnapshot document = groupsList[index];
-            String groupID = document.id;
 
-            return StreamBuilder<DocumentSnapshot>(
-              stream: FirebaseFirestore.instance
-                .collection('groups')
-                .doc(groupID)
-                .snapshots(),
-              builder: (context, noteSnapshot) {
-                if (noteSnapshot.hasData && noteSnapshot.data?.data() != null) {
-                  Map<String, dynamic> data = noteSnapshot.data?.data() as Map<String, dynamic>;
-                  String groupName = data['groupName'];
+            return Expanded(
+              child: ListView.builder(
+                itemCount: groupsList.length,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot document = groupsList[index];
+                  String groupID = document.id;
 
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => NavigationMenu(
-                      //       groupName: groupName,
-                      //       groupDescription: groupDescription,
-                      //       groupCode: groupCode,
-                      //       groupCreated: groupCreated,
-                      //       groupRole: groupRole,
-                      //       groupID: groupID,
-                      //     ),
-                      //   ),
-                      // );
+                  return StreamBuilder<DocumentSnapshot>(
+                    stream: FirebaseFirestore.instance
+                      .collection('groups')
+                      .doc(groupID)
+                      .snapshots(),
+                    builder: (context, groupsSnapshot) {
+                      if (groupsSnapshot.hasData && groupsSnapshot.data?.data() != null) {
+                        Map<String, dynamic> data = groupsSnapshot.data?.data() as Map<String, dynamic>;
+                        String groupName = data['groupName'];
 
-                    return ListTile(
-                    title: Text(groupName),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () {
                             // Navigator.of(context).push(
                             //   MaterialPageRoute(
-                            //     builder: (context) => CrudGroup(
-                            //       title: 'Update Group',
+                            //     builder: (context) => NavigationMenu(
                             //       groupName: groupName,
                             //       groupDescription: groupDescription,
                             //       groupCode: groupCode,
@@ -253,56 +233,78 @@ StreamBuilder<List<DocumentSnapshot>>(
                             //     ),
                             //   ),
                             // );
-                          },
-                          icon: const Icon(Icons.settings),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text('Delete Group'),
-                                content: const Text('Do you want to delete this group?'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.of(context).pop(false),
-                                    child: const Text('No'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      firestoreService.deleteGroup(groupID);
-                                      Navigator.of(context).pop(true);
-                                    },
-                                    child: const Text('Yes'),
-                                  ),
-                                ],
+
+                          return ListTile(
+                          title: Text(groupName),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Update button
+                              IconButton(
+                                onPressed: () {
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => CrudGroup(
+                                  //       title: 'Update Group',
+                                  //       groupName: groupName,
+                                  //       groupDescription: groupDescription,
+                                  //       groupCode: groupCode,
+                                  //       groupCreated: groupCreated,
+                                  //       groupRole: groupRole,
+                                  //       groupID: groupID,
+                                  //     ),
+                                  //   ),
+                                  // );
+                                },
+                                icon: const Icon(Icons.settings),
                               ),
-                            );
-                          },
-                          icon: const Icon(Icons.delete),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            // Add your share functionality here
-                          },
-                          icon: const Icon(Icons.share),
-                        ),
-                      ],
-                    ),
+                              IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Delete Group'),
+                                      content: const Text('Do you want to delete this group?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.of(context).pop(false),
+                                          child: const Text('No'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            firestoreService.deleteGroup(groupID);
+                                            Navigator.of(context).pop(true);
+                                          },
+                                          child: const Text('Yes'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.delete),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  // Add your share functionality here
+                                },
+                                icon: const Icon(Icons.share),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
                   );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
+                },
+              ),
             );
-          },
-        ),
-      );
-    } else {
-      return const CircularProgressIndicator();
-    }
-  },
-)
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      )
               ]
             )
           )
