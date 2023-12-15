@@ -162,7 +162,7 @@ class _GroupPageState extends State<GroupPage> {
                         height: 35,
                         child: OutlinedButton(
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(
+                            Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => CrudGroup(title: title),
                               ),
