@@ -241,7 +241,7 @@ return Card(
   ),
   child: InkWell(
     onTap: () {
-          globals.currentGroup = groupName;
+          globals.currentGroup = groupID;
           Navigator.of(context).push(
           MaterialPageRoute(
           builder: (context) => const NavigationPage(),
@@ -249,7 +249,7 @@ return Card(
     );
     },
     child: ListTile(
-      title: Text(document.id),
+      title: Text(groupName),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
