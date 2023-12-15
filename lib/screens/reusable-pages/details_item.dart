@@ -378,7 +378,11 @@ class _ItemDetailsState extends State<ItemDetails> {
                               ),
                               children: [
                                 Text('IN'),
-                                Text('OUT'),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Text('LEFT EARLY/BREAK'),
+                                ),
                               ],
                             ),
                           ],
@@ -426,6 +430,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                         children: [
                                                           Text(
                                                               'Are you sure you want to flag this item? This will remove their attendance record for this event.'),
+                                                          Text(
+                                                              "It is preferable to delete and add again the record for incorrect input."),
                                                           TextField(
                                                             decoration:
                                                                 InputDecoration(
@@ -613,14 +619,16 @@ class _ItemDetailsState extends State<ItemDetails> {
                             },
                           ),
                           ListTile(
-                            title: Text('Associate Face to User'),
+                            title: Text(
+                                'Associate Face to User (for unknown matched user cases)'),
                             onTap: () {
                               widget._reference.update({
                                 'verification_status':
                                     'for-processing-user-associate',
                               });
                               Fluttertoast.showToast(
-                                msg: "Check Data Details for Output",
+                                msg:
+                                    "Check Data Details for Output. You may re-process image.",
                                 toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.TOP,
                               );
@@ -633,7 +641,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 'verification_status': 'for-processing',
                               });
                               Fluttertoast.showToast(
-                                msg: "Check Data Details for Output",
+                                msg: "Check Data Details for Output.",
                                 toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.TOP,
                               );
@@ -651,7 +659,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               });
                               Fluttertoast.showToast(
                                 msg:
-                                    "Check Data Details for Output. You may delete this entry afterwards.",
+                                    "Check Data Details for Output. You may delete this entry afterwards or re-process image.",
                                 toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.TOP,
                               );
@@ -669,7 +677,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               });
                               Fluttertoast.showToast(
                                 msg:
-                                    "Check Data Details for Output. You may delete this entry afterwards.",
+                                    "Check Data Details for Output. You may delete this entry afterwards or re-process image.",
                                 toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.TOP,
                               );
@@ -687,7 +695,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               });
                               Fluttertoast.showToast(
                                 msg:
-                                    "Check Data Details for Output. You may delete this entry afterwards.",
+                                    "Check Data Details for Output. You may delete this entry afterwards or re-process image.",
                                 toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.TOP,
                               );
