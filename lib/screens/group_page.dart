@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:here/screens/crud_group.dart';
 import 'package:here/screens/join_group.dart';
@@ -48,13 +49,13 @@ class _GroupPageState extends State<GroupPage> {
               children: [
                 Row(
                   children: [
-                    const Expanded(
+                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Hello, Earlanfdfdsfds!",
+                          const Text(
+                            "Welcome!",
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontFamily: "Helvetica Neue",
@@ -66,9 +67,9 @@ class _GroupPageState extends State<GroupPage> {
                             textAlign: TextAlign.left,
                           ),
                           Text(
-                            "Viewing as SU/CCS (Member)",
+                            FirebaseAuth.instance.currentUser?.email ?? 'No email',
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "Helvetica Neue",
                               fontSize: 13,
                               fontWeight: FontWeight.w400,
