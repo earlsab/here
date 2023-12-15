@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:here/functions/globals.dart';
 
 class FirestoreService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,6 +29,24 @@ class FirestoreService {
               groupID: 'Admin'
             }
           }, SetOptions(merge: true));
+      });
+  }
+
+  // CREATE & UPDATE: add a new event
+  Future<void> crudEvent(String eventName, String eventLocation, String date, String start, String end) {
+
+    // Add the event to the 'events' collection
+    return FirebaseFirestore.instance
+      .collection('groups')
+      .doc(currentGroup)
+      .collection('events')
+      .add({
+        'eventName': eventName,
+        'eventLocation': eventLocation,
+        'eventDate': date,
+        'eventStart': start,
+        'eventEnd': end,
+        'eventCreated': Timestamp.now(),
       });
   }
 

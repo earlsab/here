@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:here/functions/firestore.dart';
+import 'package:here/screens/events_page.dart';
+import 'package:here/screens/home_page.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:intl/intl.dart'; 
 
@@ -11,12 +14,12 @@ class CreateEvent extends StatefulWidget {
 
   final TextEditingController eventNameController = TextEditingController();
   final TextEditingController eventLocationController = TextEditingController();
-  final TextEditingController eventDateController = TextEditingController();
-  final TextEditingController eventStartTimeController = TextEditingController();
-  final TextEditingController eventEndTimeController = TextEditingController();
-  final TextEditingController eventAllowableOffTimeController = TextEditingController();
+ 
 
 class _CreateEventState extends State<CreateEvent> {
+
+    // Firestore
+  final FirestoreService firestoreService = FirestoreService();
   
   Future<DateTime?> _showDatePicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -58,11 +61,17 @@ class _CreateEventState extends State<CreateEvent> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(10), 
-              child: AnimatedTextField(label: "Event name", suffix: null, controller: eventNameController),
+              child: AnimatedTextField(
+              label: "Event name", 
+              suffix: null, controller: 
+              eventNameController),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
-              child: AnimatedTextField(label: "Location", suffix: null, controller: eventLocationController),
+              child: AnimatedTextField(
+                label: "Location", 
+                suffix: null, 
+                controller: eventLocationController),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -128,21 +137,37 @@ class _CreateEventState extends State<CreateEvent> {
                 ),
               ),
             ),
-           Padding(
-              padding: const EdgeInsets.all(10),
-              child: AnimatedTextField(label: "Allowable Off-Time", suffix: null, controller: eventAllowableOffTimeController),
-            ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: SizedBox(
-                width: 250, // Set the width you want here
+                width: double.infinity, // Set the width you want here
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () { firestoreService.crudEvent(
+                    eventNameController.text, 
+                    eventLocationController.text, 
+                    formattedDate,
+                    formattedStartTime,
+                    formattedEndTime,
+                  );
+                  
+                  // Clear the text controller
+                  eventNameController.clear();
+                  eventLocationController.clear();
+                  _dateController.clear();
+                  _startTimeController.clear();
+                  _endTimeController.clear();
+                  
+                  // Close the box
+                  Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                  builder: (context) => const EventsPage()),
+                  );
+                  },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 60, 159, 212), 
+                    backgroundColor: const Color(0xFF749BC2), 
                   ),
                   child: const Text(
-                    'Create New Event',
+                    'Confirm Details',
                     style: TextStyle(color: Colors.white, fontSize: 16), 
                   ),
                 ),
