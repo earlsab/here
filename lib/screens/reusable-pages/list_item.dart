@@ -126,7 +126,7 @@ class ItemList extends StatelessWidget {
                                       duration: Duration(milliseconds: 300),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(color: Colors.grey),
+                                        // border: Border.all(color: Colors.grey),
                                         color: Colors.yellow,
                                       ),
                                       child: ListView.builder(
@@ -298,8 +298,11 @@ class ItemList extends StatelessWidget {
                                                           BorderRadius.circular(
                                                               8),
                                                       color: thisItem['data'][
-                                                                  'verification_status'] ==
-                                                              'verified'
+                                                                      'verification_status'] ==
+                                                                  'verified' ||
+                                                              thisItem['data'][
+                                                                      'verification_status'] ==
+                                                                  'new-user-associated'
                                                           ? Colors.green
                                                           : Colors.red,
                                                     ),

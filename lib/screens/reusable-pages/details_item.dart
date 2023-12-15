@@ -43,15 +43,6 @@ class _ItemDetailsState extends State<ItemDetails> {
         actions: [
           IconButton(
               onPressed: () {
-                //add the id to the map
-                widget.data['id'] = widget.item['id'];
-
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => EditItem(widget.data)));
-              },
-              icon: Icon(Icons.edit)),
-          IconButton(
-              onPressed: () {
                 //Delete the item
                 widget._reference.delete();
                 Navigator.of(context).pop();
@@ -146,7 +137,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                     SizedBox(
                       height: 20,
                     ),
-                    Row(
+                    Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -212,12 +203,34 @@ class _ItemDetailsState extends State<ItemDetails> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 8),
+                              if (data['flag_reason'] != null)
+                                Column(
+                                  children: [
+                                    SizedBox(height: 10),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                          'Flag Reason: ${data['flag_reason']}'),
+                                    ),
+                                  ],
+                                ),
+                              Divider(),
+                              SizedBox(height: 15),
+                              Text(
+                                '${data['alias']}',
+                                style: TextStyle(fontSize: 15),
+                                textAlign: TextAlign.left,
+                              ),
                               Text(
                                 '${data['student-id']}',
                                 style: TextStyle(fontSize: 50),
                                 textAlign: TextAlign.left,
                               ),
+                              SizedBox(height: 15),
                             ],
                           ),
                         ),
@@ -243,8 +256,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                                   data['attendance_status'] == "OUT"
                                 ];
                                 if (!_selected[index] &&
-                                    (data['verification_status'] !=
-                                        'for-action')) {
+                                    !(data['verification_status'] ==
+                                            'for-action' ||
+                                        data['verification_status'] ==
+                                            'FLAGGED')) {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -279,9 +294,13 @@ class _ItemDetailsState extends State<ItemDetails> {
                                       }
 
                                       // var timeOut = DateTime.now().difference(timestamps);
-                                      if (!_selected[index]) {
+                                      if (!_selected[index] &&
+                                          !(data['verification_status'] ==
+                                                  'for-action' ||
+                                              data['verification_status'] ==
+                                                  'FLAGGED')) {
                                         return AlertDialog(
-                                          title: Text('Confirmation'),
+                                          title: const Text('Confirmation'),
                                           content:
                                               Text(attendanceConfirmationText),
                                           actions: [
@@ -555,6 +574,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                         ),
                       ],
                     ),
+
                     SizedBox(height: 50.0),
                     ExpansionTile(
                       title: Text('Data Details'),
@@ -587,8 +607,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                               });
                               Fluttertoast.showToast(
                                 msg: "Check Data Details for Output",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
                               );
                             },
                           ),
@@ -601,8 +621,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                               });
                               Fluttertoast.showToast(
                                 msg: "Check Data Details for Output",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
                               );
                             },
                           ),
@@ -614,8 +634,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                               });
                               Fluttertoast.showToast(
                                 msg: "Check Data Details for Output",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
                               );
                             },
                           ),
@@ -630,9 +650,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                                     'for-processing-user-delete',
                               });
                               Fluttertoast.showToast(
-                                msg: "Check Data Details for Output",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
+                                msg:
+                                    "Check Data Details for Output. You may delete this entry afterwards.",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
                               );
                             },
                           ),
@@ -647,9 +668,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                                     'for-processing-matched-user-delete',
                               });
                               Fluttertoast.showToast(
-                                msg: "Check Data Details for Output",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
+                                msg:
+                                    "Check Data Details for Output. You may delete this entry afterwards.",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
                               );
                             },
                           ),
@@ -664,9 +686,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                                     'for-processing-purge-collection',
                               });
                               Fluttertoast.showToast(
-                                msg: "Check Data Details for Output",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
+                                msg:
+                                    "Check Data Details for Output. You may delete this entry afterwards.",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
                               );
                             },
                           ),

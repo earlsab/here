@@ -19,6 +19,7 @@ class AddItem extends StatefulWidget {
 
 class _AddItemState extends State<AddItem> {
   TextEditingController _controllerName = TextEditingController();
+  TextEditingController _controllerID = TextEditingController();
   TextEditingController _controllerQuantity = TextEditingController();
 
   GlobalKey<FormState> key = GlobalKey();
@@ -129,12 +130,23 @@ class _AddItemState extends State<AddItem> {
           child: Column(
             children: [
               TextFormField(
-                controller: _controllerName,
+                controller: _controllerID,
                 decoration: InputDecoration(
-                    hintText: 'ID Number (e.g. 21-1-12345 or 21112345)'),
+                  hintText: 'ID Number (e.g. 21-1-12345 or 21112345)',
+                ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter the item name';
+                    return 'Please enter the ID number';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _controllerName,
+                decoration: InputDecoration(hintText: 'Name/Alias'),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your last name';
                   }
                   return null;
                 },
@@ -153,13 +165,16 @@ class _AddItemState extends State<AddItem> {
                   ElevatedButton(
                       onPressed: () async {
                         if (key.currentState!.validate()) {
-                          String studentId = _controllerName.text;
+                          String studentId = _controllerID.text;
+                          String alias = _controllerName.text;
+
                           // String itemQuantity = _controllerQuantity.text;
 
                           //Create a Map of data
                           if (imageUrl != "") {
                             Map<String, dynamic> dataToSend = {
                               'student-id': studentId,
+                              'alias': alias,
                               'image': imageUrl,
                               'verification_status': "for-processing",
                               'recorded_by': auth.currentUser?.email as String,
