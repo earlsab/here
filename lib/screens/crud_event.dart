@@ -9,6 +9,13 @@ class CreateEvent extends StatefulWidget {
   State<CreateEvent> createState() => _CreateEventState();
   }
 
+  final TextEditingController eventNameController = TextEditingController();
+  final TextEditingController eventLocationController = TextEditingController();
+  final TextEditingController eventDateController = TextEditingController();
+  final TextEditingController eventStartTimeController = TextEditingController();
+  final TextEditingController eventEndTimeController = TextEditingController();
+  final TextEditingController eventAllowableOffTimeController = TextEditingController();
+
 class _CreateEventState extends State<CreateEvent> {
   
   Future<DateTime?> _showDatePicker(BuildContext context) async {
@@ -49,13 +56,13 @@ class _CreateEventState extends State<CreateEvent> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.all(10), 
-              child: AnimatedTextField(label: "Event name", suffix: null),
+            Padding(
+              padding: const EdgeInsets.all(10), 
+              child: AnimatedTextField(label: "Event name", suffix: null, controller: eventNameController),
             ),
-            const Padding(
-              padding: EdgeInsets.all(10),
-              child: AnimatedTextField(label: "Location", suffix: null),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: AnimatedTextField(label: "Location", suffix: null, controller: eventLocationController),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -121,9 +128,9 @@ class _CreateEventState extends State<CreateEvent> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(10),
-              child: AnimatedTextField(label: "Allowable Off-Time", suffix: null),
+           Padding(
+              padding: const EdgeInsets.all(10),
+              child: AnimatedTextField(label: "Allowable Off-Time", suffix: null, controller: eventAllowableOffTimeController),
             ),
             Padding(
               padding: const EdgeInsets.all(10),

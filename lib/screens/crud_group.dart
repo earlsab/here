@@ -61,13 +61,22 @@ class _CrudGroupState extends State<CrudGroup> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10.0), 
-              child: AnimatedTextField(label: "Group Name", suffix: null),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0), 
+              child: AnimatedTextField(
+                label: "Group Name", 
+                suffix: null, controller: 
+                groupNameController,
+                ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: AnimatedTextField(label: "Group Description", suffix: null),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: AnimatedTextField(
+                label: "Group Description", 
+                suffix: null, 
+                controller: 
+                groupDescriptionController,
+                ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),

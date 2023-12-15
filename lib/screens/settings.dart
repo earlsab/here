@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:here/screens/login_page.dart';
-import '/screens/navigation_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SettingsPage extends StatelessWidget {

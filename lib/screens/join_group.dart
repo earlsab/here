@@ -9,6 +9,8 @@ class JoinGroup extends StatefulWidget {
   State<JoinGroup> createState() => _JoinGroupState();
 }
 
+final TextEditingController groupCodeController = TextEditingController();
+
 class _JoinGroupState extends State<JoinGroup> {
   @override
   Widget build(BuildContext context) {
@@ -43,9 +45,9 @@ class _JoinGroupState extends State<JoinGroup> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10.0), 
-              child: AnimatedTextField(label: "Group Code", suffix: null),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0), 
+              child: AnimatedTextField(label: "Group Code", suffix: null, controller: groupCodeController ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
