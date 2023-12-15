@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:here/screens/group_page.dart';
 import 'package:random_uuid_string/random_uuid_string.dart';
+import 'package:here/functions/firestore.dart';
 
 class CrudGroup extends StatefulWidget {
   final String title;
@@ -19,6 +20,9 @@ final TextEditingController groupDescriptionController = TextEditingController()
 class _CrudGroupState extends State<CrudGroup> {
   String randomText = RandomString.randomString(length: 6).toUpperCase();
     String updatedTitle = '';
+
+    // Firestore
+  final FirestoreService firestoreService = FirestoreService();
 
   @override
   void initState() {
@@ -138,7 +142,11 @@ class _CrudGroupState extends State<CrudGroup> {
               child: SizedBox(
                 width: double.infinity, // Set the width you want here
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => firestoreService.crudGroup(
+                    groupNameController.text, 
+                    groupDescriptionController.text, 
+                    randomText,
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF749BC2), 
                   ),

@@ -22,26 +22,27 @@ class FirestoreService {
   }
 
   // CREATE & UPDATE: add a new group
-  Future<void> addGroup(String groupName, String groupDescription) {
+  Future<void> crudGroup(String groupName, String groupDescription, String groupID) {
     // Get the current user's
     var userID = _auth.currentUser!.uid;
 
     // Add the group to the 'groups' collection
     return FirebaseFirestore.instance
       .collection('groups')
-      .add({
+      .doc(groupID)
+      .set({
         'groupName': groupName,
         'groupDescription': groupDescription,
         'groupCreated': Timestamp.now(),
       })
-      .then((docRef) {
+      .then((_) {
         // Add the group ID and role to the 'userRoles' collection
         FirebaseFirestore.instance
           .collection('users')
           .doc(userID)
           .set({
             'groupRoles': {
-              docRef.id: 'Admin'
+              groupID: 'Admin'
             }
           }, SetOptions(merge: true));
       });

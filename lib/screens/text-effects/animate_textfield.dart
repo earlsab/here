@@ -4,8 +4,7 @@ import 'package:here/screens/text-effects/custom_animate_border.dart';
 class AnimatedTextField extends StatefulWidget {
   final String label;
   final Widget? suffix;
-  const AnimatedTextField({Key? key, required this.label, required this.suffix})
-      : super(key: key);
+  const AnimatedTextField({super.key, required this.label, required this.suffix, required TextEditingController controller});
 
   @override
   AnimatedTextFieldState createState() => AnimatedTextFieldState();
