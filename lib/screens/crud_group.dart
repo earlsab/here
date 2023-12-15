@@ -32,7 +32,7 @@ class _CrudGroupState extends State<CrudGroup> {
                   IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () {
-                      Navigator.of(context).push(
+                      Navigator.of(context).pop(
                         MaterialPageRoute(
                             builder: (context) => const GroupPage()),
                       );

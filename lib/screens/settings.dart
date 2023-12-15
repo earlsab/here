@@ -45,7 +45,7 @@ class SettingsPage extends StatelessWidget {
                     final BuildContext currentContext = context;
                     FirebaseAuth.instance.signOut().then((_) {
                       if (Navigator.canPop(currentContext)) {
-                        Navigator.of(currentContext).pushReplacement(
+                        Navigator.of(currentContext).pop(
                           MaterialPageRoute(builder: (context) => const LoginPage()),
                         );
                       }

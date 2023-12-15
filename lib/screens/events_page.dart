@@ -45,7 +45,7 @@ class EventsPage extends StatelessWidget {
               ),
 
               const Spacer(), // For space between greeting and buttons
-
+              
               Column(
                 // Settings button
                 children: [

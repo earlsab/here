@@ -27,7 +27,7 @@ class _JoinGroupState extends State<JoinGroup> {
                   IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () {
-                      Navigator.of(context).push(
+                      Navigator.of(context).pop(
                         MaterialPageRoute(
                             builder: (context) => const GroupPage()),
                       );
