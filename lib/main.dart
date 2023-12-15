@@ -27,7 +27,7 @@ Future<void> main() async {
   if (kDebugMode) {
     print("Firebase initalized successfully!");
   }
-  
+
   // INITIALIZE CAMERAS
   // try {
   //   WidgetsFlutterBinding.ensureInitialized();
