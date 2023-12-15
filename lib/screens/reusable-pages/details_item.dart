@@ -34,6 +34,7 @@ class _ItemDetailsState extends State<ItemDetails> {
   // late bool _is_flagged;
   bool isImageVisible = true;
   final ignore_flag_list = ['verified', 'new-user-associated'];
+  final keep_red_list = ['for-action', 'FLAGGED'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,8 +135,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Text(
-                                      data['verification_status'] ==
-                                              'for-action'
+                                      keep_red_list.contains(
+                                              data['verification_status'])
                                           ? 'Matched User: ${data['matched_id']}'
                                           : '${data['verification_status']}',
                                       style: TextStyle(color: Colors.white),
@@ -157,8 +158,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                           'matched_id_confidence']
                                                       .toString()) >=
                                                   0.75)
-                                          ? (data['verification_status'] ==
-                                                  'for-action'
+                                          ? (keep_red_list.contains(
+                                                  data['verification_status'])
                                               ? Colors.red
                                               : Colors.green)
                                           : (data['matched_id_confidence'] !=
@@ -303,8 +304,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                                       }
                                     },
                                   );
-                                } else if (data['verification_status'] ==
-                                    'for-action') {
+                                } else if (keep_red_list
+                                    .contains(data['verification_status'])) {
                                   Fluttertoast.showToast(
                                     msg:
                                         'Attendance cannot be set. Unmatched User! Consider Associating Face to User or Deleting Matched User.',
@@ -347,7 +348,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                           gravity: ToastGravity.TOP);
                                     }
                                   : (index) {
-                                      var reason;
+                                      String reason = '';
                                       List<bool> flagSelected = [
                                         data['verification_status'] ==
                                             'FLAGGED',
@@ -372,7 +373,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                       content: Column(
                                                         children: [
                                                           Text(
-                                                              'Are you sure you want to flag this item?'),
+                                                              'Are you sure you want to flag this item? This will remove their attendance record for this event.'),
                                                           TextField(
                                                             decoration:
                                                                 InputDecoration(
@@ -385,6 +386,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                                     .isNotEmpty) {
                                                                   reason =
                                                                       value;
+                                                                } else {
+                                                                  reason = '';
                                                                 }
                                                               });
                                                             },
@@ -394,18 +397,24 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                       actions: [
                                                         TextButton(
                                                           onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            if (reason
-                                                                .isNotEmpty) {
-                                                              widget._reference
-                                                                  .update({
-                                                                'verification_status':
-                                                                    'FLAGGED',
-                                                                'flag_reason':
-                                                                    reason,
-                                                              });
+                                                            if (reason !=
+                                                                null) {
+                                                              if (reason
+                                                                  .isNotEmpty) {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                widget
+                                                                    ._reference
+                                                                    .update({
+                                                                  'verification_status':
+                                                                      'FLAGGED',
+                                                                  'flag_reason':
+                                                                      reason,
+                                                                  'attendance_status':
+                                                                      "N/A",
+                                                                });
+                                                              }
                                                             }
                                                           },
                                                           child: Text('Yes'),

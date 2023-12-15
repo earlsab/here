@@ -157,11 +157,14 @@ class _AddItemState extends State<AddItem> {
 
                           //Create a Map of data
                           if (imageUrl != "") {
-                            Map<String, String> dataToSend = {
+                            Map<String, dynamic> dataToSend = {
                               'student-id': studentId,
                               'image': imageUrl,
                               'verification_status': "for-processing",
                               'recorded_by': auth.currentUser?.email as String,
+                              'attendance_status': "IN",
+                              'Timestamp_Last_Attendance_Status':
+                                  DateTime.now(),
                             };
                             // Customize the document ID here
                             String customDocumentId = studentId;

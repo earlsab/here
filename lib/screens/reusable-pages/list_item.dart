@@ -23,7 +23,7 @@ class ItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Items'),
+        title: Text('Attendance'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _stream,
@@ -47,43 +47,194 @@ class ItemList extends StatelessWidget {
                     })
                 .toList();
 
-            //Display the list
+            // Group items by attendance status and verification status
+            Map<String, Map<String, List<Map>>> groupedItems = {};
+            for (var item in items) {
+              String attendanceStatus = item['data']['attendance_status'];
+              String verificationStatus = item['data']['verification_status'];
+              if (!groupedItems.containsKey(attendanceStatus)) {
+                groupedItems[attendanceStatus] = {};
+              }
+              if (!groupedItems[attendanceStatus]!
+                  .containsKey(verificationStatus)) {
+                groupedItems[attendanceStatus]![verificationStatus] = [];
+              }
+              groupedItems[attendanceStatus]![verificationStatus]?.add(item);
+            }
+
+            // Sort attendance status
+            List<String> sortedAttendanceStatus = groupedItems.keys.toList();
+            sortedAttendanceStatus.sort((a, b) {
+              if (a == 'N/A') {
+                return -1;
+              } else if (b == 'N/A') {
+                return 1;
+              } else if (a == 'OUT') {
+                return -1;
+              } else if (b == 'OUT') {
+                return 1;
+              } else {
+                return -1;
+              }
+            });
+
+            // Display the grouped list
             return ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (BuildContext context, int index) {
-                  //Get the item at this index
-                  Map thisItem = items[index];
-                  //REturn the widget for the list items
-                  return Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          '${thisItem['data']['student-id']}',
-                          style: TextStyle(
-                              fontSize: 24), // Set the font size to 24
+              itemCount: sortedAttendanceStatus.length,
+              itemBuilder: (BuildContext context, int attendanceIndex) {
+                String attendanceStatus =
+                    sortedAttendanceStatus.elementAt(attendanceIndex);
+                Map<String, List<Map>> itemsByAttendanceStatus =
+                    groupedItems[attendanceStatus]!;
+
+                return Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        '$attendanceStatus',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    if (attendanceStatus == 'N/A')
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        color: Colors.yellow,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: itemsByAttendanceStatus.length,
+                          itemBuilder:
+                              (BuildContext context, int verificationIndex) {
+                            String verificationStatus = itemsByAttendanceStatus
+                                .keys
+                                .elementAt(verificationIndex);
+                            List<Map> itemsByVerificationStatus =
+                                itemsByAttendanceStatus[verificationStatus]!;
+
+                            return Column(
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    '$verificationStatus',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: itemsByVerificationStatus.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    Map thisItem =
+                                        itemsByVerificationStatus[index];
+                                    return Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text(
+                                            '${thisItem['data']['student-id']}',
+                                            style: TextStyle(fontSize: 24),
+                                          ),
+                                          leading: Container(
+                                            height: 80,
+                                            width: 80,
+                                            child: thisItem['data']
+                                                    .containsKey('image')
+                                                ? Image.network(
+                                                    '${thisItem['data']['image']}')
+                                                : Container(),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ItemDetails(thisItem)));
+                                          },
+                                        ),
+                                        Divider(),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          },
                         ),
-                        leading: Container(
-                          height: 80,
-                          width: 80,
-                          child: thisItem['data'].containsKey('image')
-                              ? Image.network('${thisItem['data']['image']}')
-                              : Container(),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ItemDetails(thisItem)));
+                      ),
+                    if (attendanceStatus != 'N/A')
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: itemsByAttendanceStatus.length,
+                        itemBuilder:
+                            (BuildContext context, int verificationIndex) {
+                          String verificationStatus = itemsByAttendanceStatus
+                              .keys
+                              .elementAt(verificationIndex);
+                          List<Map> itemsByVerificationStatus =
+                              itemsByAttendanceStatus[verificationStatus]!;
+
+                          return Column(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  '$verificationStatus',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: itemsByVerificationStatus.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Map thisItem =
+                                      itemsByVerificationStatus[index];
+                                  return Column(
+                                    children: [
+                                      ListTile(
+                                        title: Text(
+                                          '${thisItem['data']['student-id']}',
+                                          style: TextStyle(fontSize: 24),
+                                        ),
+                                        leading: Container(
+                                          height: 80,
+                                          width: 80,
+                                          child: thisItem['data']
+                                                  .containsKey('image')
+                                              ? Image.network(
+                                                  '${thisItem['data']['image']}')
+                                              : Container(),
+                                        ),
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ItemDetails(thisItem)));
+                                        },
+                                      ),
+                                      Divider(),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
+                          );
                         },
                       ),
-                      Divider(), // Add a divider
-                    ],
-                  );
-                });
+                  ],
+                );
+              },
+            );
           }
 
           //Show loader
           return Center(child: CircularProgressIndicator());
         },
-      ), //Display a list // Add a FutureBuilder
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
