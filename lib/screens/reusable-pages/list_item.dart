@@ -88,21 +88,101 @@ class ItemList extends StatelessWidget {
 
                 return Column(
                   children: [
-                    ListTile(
-                      title: Text(
-                        '$attendanceStatus',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal:
+                              10), // Add margin to prevent borders from touching the device's borders
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey),
                       ),
-                    ),
-                    if (attendanceStatus == 'N/A')
-                      ExpansionTile(
-                        title: Text('Needs Action'),
+                      child: Column(
                         children: [
-                          AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
-                            color: Colors.yellow,
-                            child: ListView.builder(
+                          ListTile(
+                            title: Text(
+                              '$attendanceStatus',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          if (attendanceStatus == 'N/A')
+                            ExpansionTile(
+                              title: Text('Needs Action'),
+                              children: [
+                                AnimatedContainer(
+                                  duration: Duration(milliseconds: 300),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.grey),
+                                    color: Colors.yellow,
+                                  ),
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: itemsByAttendanceStatus.length,
+                                    itemBuilder: (BuildContext context,
+                                        int verificationIndex) {
+                                      String verificationStatus =
+                                          itemsByAttendanceStatus.keys
+                                              .elementAt(verificationIndex);
+                                      List<Map> itemsByVerificationStatus =
+                                          itemsByAttendanceStatus[
+                                              verificationStatus]!;
+
+                                      return Column(
+                                        children: [
+                                          ListTile(),
+                                          ListView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            itemCount: itemsByVerificationStatus
+                                                .length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              Map thisItem =
+                                                  itemsByVerificationStatus[
+                                                      index];
+                                              return Column(
+                                                children: [
+                                                  ListTile(
+                                                    title: Text(
+                                                      '${thisItem['data']['student-id']}',
+                                                      style: TextStyle(
+                                                          fontSize: 24),
+                                                    ),
+                                                    leading: Container(
+                                                      height: 80,
+                                                      width: 80,
+                                                      child: thisItem['data']
+                                                              .containsKey(
+                                                                  'image')
+                                                          ? Image.network(
+                                                              '${thisItem['data']['image']}')
+                                                          : Container(),
+                                                    ),
+                                                    onTap: () {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ItemDetails(
+                                                                      thisItem)));
+                                                    },
+                                                  ),
+                                                  Divider(),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          if (attendanceStatus != 'N/A')
+                            ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: itemsByAttendanceStatus.length,
@@ -117,7 +197,14 @@ class ItemList extends StatelessWidget {
 
                                 return Column(
                                   children: [
-                                    ListTile(),
+                                    ListTile(
+                                      title: Text(
+                                        '$verificationStatus',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                     ListView.builder(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
@@ -144,14 +231,19 @@ class ItemList extends StatelessWidget {
                                                     : Container(),
                                               ),
                                               onTap: () {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ItemDetails(
-                                                                thisItem)));
+                                                Navigator.of(context)
+                                                    .push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ItemDetails(thisItem),
+                                                ));
                                               },
                                             ),
-                                            Divider(),
+                                            if (index !=
+                                                itemsByVerificationStatus
+                                                        .length -
+                                                    1)
+                                              Divider(),
+                                            SizedBox(height: 10),
                                           ],
                                         );
                                       },
@@ -160,71 +252,10 @@ class ItemList extends StatelessWidget {
                                 );
                               },
                             ),
-                          ),
                         ],
                       ),
-                    if (attendanceStatus != 'N/A')
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: itemsByAttendanceStatus.length,
-                        itemBuilder:
-                            (BuildContext context, int verificationIndex) {
-                          String verificationStatus = itemsByAttendanceStatus
-                              .keys
-                              .elementAt(verificationIndex);
-                          List<Map> itemsByVerificationStatus =
-                              itemsByAttendanceStatus[verificationStatus]!;
-
-                          return Column(
-                            children: [
-                              ListTile(
-                                title: Text(
-                                  '$verificationStatus',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: itemsByVerificationStatus.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  Map thisItem =
-                                      itemsByVerificationStatus[index];
-                                  return Column(
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          '${thisItem['data']['student-id']}',
-                                          style: TextStyle(fontSize: 24),
-                                        ),
-                                        leading: Container(
-                                          height: 80,
-                                          width: 80,
-                                          child: thisItem['data']
-                                                  .containsKey('image')
-                                              ? Image.network(
-                                                  '${thisItem['data']['image']}')
-                                              : Container(),
-                                        ),
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ItemDetails(thisItem)));
-                                        },
-                                      ),
-                                      Divider(),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                    ),
+                    SizedBox(height: 10), // Add spacing between sections
                   ],
                 );
               },

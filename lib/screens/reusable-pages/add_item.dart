@@ -43,6 +43,7 @@ class _AddItemState extends State<AddItem> {
     /*Step 1:Pick image*/
     //Install image_picker
     //Import the corresponding library
+    // TODO: IMPLEMENT IMAGE COMPRESSOR
     ImagePicker imagePicker = ImagePicker();
     // TODO: AWS Has a 5MB Limit. Ensure photo is small in size.
     XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
