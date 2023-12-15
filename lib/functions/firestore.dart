@@ -102,6 +102,24 @@ class FirestoreService {
       });
   }
 
+  // READ: get events from Firestore
+  Stream<List<DocumentSnapshot>> getEventsStream() {
+    // Query the 'events' collection for the events with the obtained IDs
+    var eventsQuery = FirebaseFirestore.instance
+        .collection('groups')
+        .doc(currentGroup)
+        .collection('events');
+
+    return eventsQuery.snapshots().map((eventsSnapshot) {
+      // Sort the events by their 'eventCreated' field
+      var eventsDocs = eventsSnapshot.docs;
+      eventsDocs.sort((a, b) =>
+          (b['eventCreated'] as Timestamp).compareTo(a['eventCreated'] as Timestamp));
+
+      return eventsDocs;
+    });
+  }
+
   // DELETE: delete a group given a group id
   Future<void> deleteGroup(String groupID) async {
     // Get the current user's ID
@@ -120,8 +138,16 @@ class FirestoreService {
       'groupRoles.$groupID': FieldValue.delete(),
     });
 
+
     // Commit the batch
     return batch.commit();
   }
+
+    // DELETE: delete an event 
+    Future<void> deleteEvent(String eventID) async {
+      // Delete the event document
+      FirebaseFirestore.instance.collection('groups').doc(currentGroup).collection('events').doc(eventID)
+      .delete();
+    }
   
 }
