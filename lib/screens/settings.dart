@@ -41,13 +41,11 @@ class SettingsPage extends StatelessWidget {
                 width: double.infinity, // Set the width you want here
                 child: ElevatedButton(
                   onPressed: () {
-                    final BuildContext currentContext = context;
                     FirebaseAuth.instance.signOut().then((_) {
-                      if (Navigator.canPop(currentContext)) {
-                        Navigator.of(currentContext).pushReplacement(
+                        Navigator.pushReplacement(
+                          context,
                           MaterialPageRoute(builder: (context) => const LoginPage()),
                         );
-                      }
                     });
                   },
                   style: ElevatedButton.styleFrom(
