@@ -4,23 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FirestoreService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    // Save user data to Firestore
-   Future<void> addUser(UserCredential userCredential) {
-    String? name = userCredential.user!.displayName;
-    if (name == null && userCredential.user!.email != null) {
-    name = userCredential.user!.email!.split('@')[0];
-    }
-    return FirebaseFirestore.instance
-    .collection('users')
-    .doc(userCredential.user!.uid)
-    .set({
-      'uid': userCredential.user!.uid,
-      'email': userCredential.user!.email,
-      'photoURL': userCredential.user!.photoURL,
-      'name': name,
-    }, SetOptions(merge: true));
-  }
-
   // CREATE & UPDATE: add a new group
   Future<void> crudGroup(String groupName, String groupDescription, String groupID) {
     // Get the current user's
@@ -46,43 +29,80 @@ class FirestoreService {
             }
           }, SetOptions(merge: true));
       });
+  }
 
-  // // READ: get groups from Firestore
-  // Stream<List<DocumentSnapshot>> getGroupsStream() {
-  //   // Get the current user's ID
-  //   var userID = _auth.currentUser!.uid;
+  // Save user data to Firestore
+   Future<void> addUser(UserCredential userCredential) {
+    String? name = userCredential.user!.displayName;
+    if (name == null && userCredential.user!.email != null) {
+    name = userCredential.user!.email!.split('@')[0];
+    }
+    return FirebaseFirestore.instance
+    .collection('users')
+    .doc(userCredential.user!.uid)
+    .set({
+      'uid': userCredential.user!.uid,
+      'email': userCredential.user!.email,
+      'photoURL': userCredential.user!.photoURL,
+      'name': name,
+    }, SetOptions(merge: true));
+  }
 
-  //   // Listen for real-time updates to the user's groupRoles
-  //   return FirebaseFirestore.instance
-  //     .collection('users')
-  //     .doc(userID)
-  //     .snapshots()
-  //     .asyncMap((snapshot) async {
-  //       // Get the IDs of the groups from groupRoles
-  //       var groupRoles = snapshot.data()?['groupRoles'] as Map<String, dynamic>?;
-  //       var groupIDs = groupRoles?.keys.toList();
+  // READ: get groups from Firestore
+  Stream<List<DocumentSnapshot>> getGroupsStream() {
+    // Get the current user's ID
+    var userID = _auth.currentUser!.uid;
 
-  //       // If there are no such groups, return an empty list
-  //       if (groupIDs == null || groupIDs.isEmpty) {
-  //         return [];
-  //       } else {
-  //         // Query the 'groups' collection for the groups with the obtained IDs
-  //         var groupsQuery = FirebaseFirestore.instance
-  //           .collection('groups')
-  //           .where(FieldPath.documentId, whereIn: groupIDs);
+    // Listen for real-time updates to the user's groupRoles
+    return FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .snapshots()
+      .asyncMap((snapshot) async {
+        // Get the IDs of the groups from groupRoles
+        var groupRoles = snapshot.data()?['groupRoles'] as Map<String, dynamic>?;
+        var groupIDs = groupRoles?.keys.toList();
 
-  //         var groupsSnapshot = await groupsQuery.get();
+        // If there are no such groups, return an empty list
+        if (groupIDs == null || groupIDs.isEmpty) {
+          return [];
+        } else {
+          // Query the 'groups' collection for the groups with the obtained IDs
+          var groupsQuery = FirebaseFirestore.instance
+            .collection('groups')
+            .where(FieldPath.documentId, whereIn: groupIDs);
 
-  //         // Sort the groups by their 'groupCreated' field
-  //         var groupsDocs = groupsSnapshot.docs;
-  //         groupsDocs.sort((a, b) => (b['groupCreated'] as Timestamp).compareTo(a['groupCreated'] as Timestamp));
+          var groupsSnapshot = await groupsQuery.get();
 
-  //         return groupsDocs;
-  //       }
-  //     });
-  // }
+          // Sort the groups by their 'groupCreated' field
+          var groupsDocs = groupsSnapshot.docs;
+          groupsDocs.sort((a, b) => (b['groupCreated'] as Timestamp).compareTo(a['groupCreated'] as Timestamp));
+
+          return groupsDocs;
+        }
+      });
+  }
+
+  // DELETE: delete a group given a group id
+  Future<void> deleteGroup(String groupID) async {
+    // Get the current user's ID
+    var userID = _auth.currentUser!.uid;
+
+    // Start a batch
+    var batch = FirebaseFirestore.instance.batch();
+
+    // Delete the group document
+    var groupRef = FirebaseFirestore.instance.collection('groups').doc(groupID);
+    batch.delete(groupRef);
+
+    // Remove the group reference from the 'noteRoles' field of the user document
+    var userRef = FirebaseFirestore.instance.collection('users').doc(userID);
+    batch.update(userRef, {
+      'groupRoles.$groupID': FieldValue.delete(),
+    });
+
+    // Commit the batch
+    return batch.commit();
+  }
   
-
-}
-
 }
