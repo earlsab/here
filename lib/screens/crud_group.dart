@@ -13,6 +13,9 @@ class CrudGroup extends StatefulWidget {
   
 }
 
+final TextEditingController groupNameController = TextEditingController();
+final TextEditingController groupDescriptionController = TextEditingController();
+
 class _CrudGroupState extends State<CrudGroup> {
   String randomText = RandomString.randomString(length: 6).toUpperCase();
     String updatedTitle = '';
