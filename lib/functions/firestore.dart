@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'globals.dart' as globals;
+
 
 class FirestoreService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -140,4 +142,20 @@ class FirestoreService {
       'photoURL': userCredential.user!.photoURL,
     }, SetOptions(merge: true));
   }
-}
+
+    // Open a group
+  void openGroup(String groupId, String groupName) {
+    // ... code to open the group ...
+
+    // Update the current group
+    globals.currentGroup = groupId;
+  }
+
+    // Open an event
+  void openEvent(String eventId, String eventName) {
+    // ... code to open the event ...
+
+    // Update the current event
+    globals.currentEvent = eventId;    
+    }
+} 
