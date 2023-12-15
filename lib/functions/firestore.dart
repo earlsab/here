@@ -46,40 +46,40 @@ class FirestoreService {
           }, SetOptions(merge: true));
       });
 
-  // READ: get groups from Firestore
-  Stream<List<DocumentSnapshot>> getGroupsStream() {
-    // Get the current user's ID
-    var userID = _auth.currentUser!.uid;
+  // // READ: get groups from Firestore
+  // Stream<List<DocumentSnapshot>> getGroupsStream() {
+  //   // Get the current user's ID
+  //   var userID = _auth.currentUser!.uid;
 
-    // Listen for real-time updates to the user's groupRoles
-    return FirebaseFirestore.instance
-      .collection('users')
-      .doc(userID)
-      .snapshots()
-      .asyncMap((snapshot) async {
-        // Get the IDs of the groups from groupRoles
-        var groupRoles = snapshot.data()?['groupRoles'] as Map<String, dynamic>?;
-        var groupIDs = groupRoles?.keys.toList();
+  //   // Listen for real-time updates to the user's groupRoles
+  //   return FirebaseFirestore.instance
+  //     .collection('users')
+  //     .doc(userID)
+  //     .snapshots()
+  //     .asyncMap((snapshot) async {
+  //       // Get the IDs of the groups from groupRoles
+  //       var groupRoles = snapshot.data()?['groupRoles'] as Map<String, dynamic>?;
+  //       var groupIDs = groupRoles?.keys.toList();
 
-        // If there are no such groups, return an empty list
-        if (groupIDs == null || groupIDs.isEmpty) {
-          return [];
-        } else {
-          // Query the 'groups' collection for the groups with the obtained IDs
-          var groupsQuery = FirebaseFirestore.instance
-            .collection('groups')
-            .where(FieldPath.documentId, whereIn: groupIDs);
+  //       // If there are no such groups, return an empty list
+  //       if (groupIDs == null || groupIDs.isEmpty) {
+  //         return [];
+  //       } else {
+  //         // Query the 'groups' collection for the groups with the obtained IDs
+  //         var groupsQuery = FirebaseFirestore.instance
+  //           .collection('groups')
+  //           .where(FieldPath.documentId, whereIn: groupIDs);
 
-          var groupsSnapshot = await groupsQuery.get();
+  //         var groupsSnapshot = await groupsQuery.get();
 
-          // Sort the groups by their 'groupCreated' field
-          var groupsDocs = groupsSnapshot.docs;
-          groupsDocs.sort((a, b) => (b['groupCreated'] as Timestamp).compareTo(a['groupCreated'] as Timestamp));
+  //         // Sort the groups by their 'groupCreated' field
+  //         var groupsDocs = groupsSnapshot.docs;
+  //         groupsDocs.sort((a, b) => (b['groupCreated'] as Timestamp).compareTo(a['groupCreated'] as Timestamp));
 
-          return groupsDocs;
-        }
-      });
-  }
+  //         return groupsDocs;
+  //       }
+  //     });
+  // }
   
 
 }

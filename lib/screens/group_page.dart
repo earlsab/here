@@ -37,7 +37,8 @@ class _GroupPageState extends State<GroupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope( //FIXME: This is a deprecated code, fix later.
+    // ignore: deprecated_member_use
+    return WillPopScope( 
       onWillPop: _onBackPressed,
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 228, 228, 228),
