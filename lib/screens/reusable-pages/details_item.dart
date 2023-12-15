@@ -107,7 +107,20 @@ class _ItemDetailsState extends State<ItemDetails> {
                       visible:
                           isImageVisible, // Control the visibility of the image
                       child: widget.item['data'].containsKey('image')
-                          ? Image.network('${widget.item['data']['image']}')
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  10), // Add rounded corners
+                              child: Image.network(
+                                '${widget.item['data']['image']}',
+                                fit: BoxFit.cover, // Shrink the photo slightly
+
+                                width: MediaQuery.of(context).size.width - 20,
+                                height:
+                                    ((MediaQuery.of(context).size.width - 20) *
+                                            4) /
+                                        3,
+                              ),
+                            )
                           : Container(),
                     ),
                     SizedBox(
@@ -415,6 +428,17 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                                       "N/A",
                                                                 });
                                                               }
+                                                            } else {
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                msg:
+                                                                    "Check Data Details for Output",
+                                                                toastLength: Toast
+                                                                    .LENGTH_SHORT,
+                                                                gravity:
+                                                                    ToastGravity
+                                                                        .BOTTOM,
+                                                              );
                                                             }
                                                           },
                                                           child: Text('Yes'),
@@ -549,49 +573,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                             },
                           ),
                           ListTile(
-                            title: Text('Delete User'),
-                            onTap: () {
-                              widget._reference.update({
-                                'verification_status':
-                                    'for-processing-user-delete',
-                              });
-                              Fluttertoast.showToast(
-                                msg: "Check Data Details for Output",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                              );
-                            },
-                          ),
-                          ListTile(
-                            title: Text('Delete Matched User'),
-                            onTap: () {
-                              widget._reference.update({
-                                'verification_status':
-                                    'for-processing-matched-user-delete',
-                              });
-                              Fluttertoast.showToast(
-                                msg: "Check Data Details for Output",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                              );
-                            },
-                          ),
-                          ListTile(
-                            title: Text('Delete Collection'),
-                            onTap: () {
-                              widget._reference.update({
-                                'verification_status':
-                                    'for-processing-purge-collection',
-                              });
-                              Fluttertoast.showToast(
-                                msg: "Check Data Details for Output",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                              );
-                            },
-                          ),
-                          ListTile(
-                            title: Text('Associate Face'),
+                            title: Text('Associate Face to User'),
                             onTap: () {
                               widget._reference.update({
                                 'verification_status':
@@ -605,10 +587,61 @@ class _ItemDetailsState extends State<ItemDetails> {
                             },
                           ),
                           ListTile(
-                            title: Text('Re-process'),
+                            title: Text('Re-process Photo'),
                             onTap: () {
                               widget._reference.update({
                                 'verification_status': 'for-processing',
+                              });
+                              Fluttertoast.showToast(
+                                msg: "Check Data Details for Output",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Text(
+                              'Delete User',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            onTap: () {
+                              widget._reference.update({
+                                'verification_status':
+                                    'for-processing-user-delete',
+                              });
+                              Fluttertoast.showToast(
+                                msg: "Check Data Details for Output",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Text(
+                              'Delete Matched User',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            onTap: () {
+                              widget._reference.update({
+                                'verification_status':
+                                    'for-processing-matched-user-delete',
+                              });
+                              Fluttertoast.showToast(
+                                msg: "Check Data Details for Output",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Text(
+                              'Delete Collection',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            onTap: () {
+                              widget._reference.update({
+                                'verification_status':
+                                    'for-processing-purge-collection',
                               });
                               Fluttertoast.showToast(
                                 msg: "Check Data Details for Output",

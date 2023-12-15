@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:here/screens/reusable-pages/details_item.dart';
-import 'package:here/util/file_name_getter.dart';
 import 'add_item.dart';
 
 // FIXME: Broken on debug mode. Some cache does not refresh and data lingers
@@ -97,71 +96,72 @@ class ItemList extends StatelessWidget {
                       ),
                     ),
                     if (attendanceStatus == 'N/A')
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        color: Colors.yellow,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: itemsByAttendanceStatus.length,
-                          itemBuilder:
-                              (BuildContext context, int verificationIndex) {
-                            String verificationStatus = itemsByAttendanceStatus
-                                .keys
-                                .elementAt(verificationIndex);
-                            List<Map> itemsByVerificationStatus =
-                                itemsByAttendanceStatus[verificationStatus]!;
+                      ExpansionTile(
+                        title: Text('Needs Action'),
+                        children: [
+                          AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
+                            color: Colors.yellow,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: itemsByAttendanceStatus.length,
+                              itemBuilder: (BuildContext context,
+                                  int verificationIndex) {
+                                String verificationStatus =
+                                    itemsByAttendanceStatus.keys
+                                        .elementAt(verificationIndex);
+                                List<Map> itemsByVerificationStatus =
+                                    itemsByAttendanceStatus[
+                                        verificationStatus]!;
 
-                            return Column(
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                    '$verificationStatus',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: itemsByVerificationStatus.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    Map thisItem =
-                                        itemsByVerificationStatus[index];
-                                    return Column(
-                                      children: [
-                                        ListTile(
-                                          title: Text(
-                                            '${thisItem['data']['student-id']}',
-                                            style: TextStyle(fontSize: 24),
-                                          ),
-                                          leading: Container(
-                                            height: 80,
-                                            width: 80,
-                                            child: thisItem['data']
-                                                    .containsKey('image')
-                                                ? Image.network(
-                                                    '${thisItem['data']['image']}')
-                                                : Container(),
-                                          ),
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ItemDetails(thisItem)));
-                                          },
-                                        ),
-                                        Divider(),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+                                return Column(
+                                  children: [
+                                    ListTile(),
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount:
+                                          itemsByVerificationStatus.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        Map thisItem =
+                                            itemsByVerificationStatus[index];
+                                        return Column(
+                                          children: [
+                                            ListTile(
+                                              title: Text(
+                                                '${thisItem['data']['student-id']}',
+                                                style: TextStyle(fontSize: 24),
+                                              ),
+                                              leading: Container(
+                                                height: 80,
+                                                width: 80,
+                                                child: thisItem['data']
+                                                        .containsKey('image')
+                                                    ? Image.network(
+                                                        '${thisItem['data']['image']}')
+                                                    : Container(),
+                                              ),
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ItemDetails(
+                                                                thisItem)));
+                                              },
+                                            ),
+                                            Divider(),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     if (attendanceStatus != 'N/A')
                       ListView.builder(
