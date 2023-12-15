@@ -69,8 +69,8 @@ class _CrudGroupState extends State<CrudGroup> {
               padding: const EdgeInsets.only(top: 10.0), 
               child: AnimatedTextField(
                 label: "Group Name", 
-                suffix: null, controller: 
-                groupNameController,
+                suffix: null, 
+                controller: groupNameController,
                 ),
             ),
             Padding(
@@ -78,8 +78,7 @@ class _CrudGroupState extends State<CrudGroup> {
               child: AnimatedTextField(
                 label: "Group Description", 
                 suffix: null, 
-                controller: 
-                groupDescriptionController,
+                controller: groupDescriptionController,
                 ),
             ),
             Padding(
@@ -142,11 +141,21 @@ class _CrudGroupState extends State<CrudGroup> {
               child: SizedBox(
                 width: double.infinity, // Set the width you want here
                 child: ElevatedButton(
-                  onPressed: () => firestoreService.crudGroup(
+                  onPressed: () { firestoreService.crudGroup(
                     groupNameController.text, 
                     groupDescriptionController.text, 
                     randomText,
-                  ),
+                  );
+                  // Clear the text controller
+                  groupNameController.clear();
+                  groupDescriptionController.clear();
+                  
+                  // Close the box
+                  Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                  builder: (context) => const GroupPage()),
+                  );
+                  }, 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF749BC2), 
                   ),
