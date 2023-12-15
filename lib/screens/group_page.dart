@@ -234,64 +234,78 @@ class _GroupPageState extends State<GroupPage> {
                             //   ),
                             // );
 
-                          return ListTile(
-                          title: Text(groupName),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              // Update button
-                              IconButton(
-                                onPressed: () {
-                                  // Navigator.of(context).push(
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => CrudGroup(
-                                  //       title: 'Update Group',
-                                  //       groupName: groupName,
-                                  //       groupDescription: groupDescription,
-                                  //       groupCode: groupCode,
-                                  //       groupCreated: groupCreated,
-                                  //       groupRole: groupRole,
-                                  //       groupID: groupID,
-                                  //     ),
-                                  //   ),
-                                  // );
-                                },
-                                icon: const Icon(Icons.settings),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Delete Group'),
-                                      content: const Text('Do you want to delete this group?'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () => Navigator.of(context).pop(false),
-                                          child: const Text('No'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            firestoreService.deleteGroup(groupID);
-                                            Navigator.of(context).pop(true);
-                                          },
-                                          child: const Text('Yes'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.delete),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  // Add your share functionality here
-                                },
-                                icon: const Icon(Icons.share),
-                              ),
-                            ],
-                          ),
-                        );
+return Card(
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15), // Adjust as needed
+  ),
+  child: InkWell(
+    onTap: () {
+          Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const NavigationPage(),
+      ),
+    );
+    },
+    child: ListTile(
+      title: Text(groupName),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Update button
+          IconButton(
+            onPressed: () {
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) => CrudGroup(
+              //       title: 'Update Group',
+              //       groupName: groupName,
+              //       groupDescription: groupDescription,
+              //       groupCode: groupCode,
+              //       groupCreated: groupCreated,
+              //       groupRole: groupRole,
+              //       groupID: groupID,
+              //     ),
+              //   ),
+              // );
+            },
+            icon: const Icon(Icons.settings),
+          ),
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Delete Group'),
+                  content: const Text('Do you want to delete this group?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: const Text('No'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        firestoreService.deleteGroup(groupID);
+                        Navigator.of(context).pop(true);
+                      },
+                      child: const Text('Yes'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            icon: const Icon(Icons.delete),
+          ),
+          IconButton(
+            onPressed: () {
+              // Add your share functionality here
+            },
+            icon: const Icon(Icons.share),
+          ),
+        ],
+      ),
+    ),
+  ),
+);
                       } else {
                         return const CircularProgressIndicator();
                       }
