@@ -87,16 +87,36 @@ class _ItemDetailsState extends State<ItemDetails> {
                       children: [
                         // ...
 
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              isImageVisible =
-                                  !isImageVisible; // Toggle the image visibility
-                            });
-                          },
-                          child: Text(isImageVisible
-                              ? 'Collapse Image'
-                              : 'Expand Image'), // Change button text based on image visibility
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: OutlinedButton(
+                            onPressed: () {
+                              setState(() {
+                                isImageVisible =
+                                    !isImageVisible; // Toggle the image visibility
+                              });
+                            },
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.grey), // Set text color to black
+                              overlayColor: MaterialStateProperty.all<Color>(
+                                  Colors.white), // Set overlay color to white
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10), // Set border radius to 0 for square shape
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              isImageVisible
+                                  ? 'Collapse Image'
+                                  : 'Expand Image',
+                              style: TextStyle(
+                                  color:
+                                      Colors.grey), // Set text color to black
+                            ), // Change button text based on image visibility
+                          ),
                         ),
                       ],
                     ),
@@ -117,8 +137,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: MediaQuery.of(context).size.width - 20,
                                 height:
                                     ((MediaQuery.of(context).size.width - 20) *
-                                            4) /
-                                        3,
+                                            9) /
+                                        8,
                               ),
                             )
                           : Container(),
@@ -601,7 +621,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                           ),
                           ListTile(
                             title: Text(
-                              'Delete User',
+                              'Delete User in AWS Collection',
                               style: TextStyle(color: Colors.red),
                             ),
                             onTap: () {
@@ -618,7 +638,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                           ),
                           ListTile(
                             title: Text(
-                              'Delete Matched User',
+                              'Delete Matched User in AWS Collection',
                               style: TextStyle(color: Colors.red),
                             ),
                             onTap: () {
@@ -635,7 +655,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                           ),
                           ListTile(
                             title: Text(
-                              'Delete Collection',
+                              'Delete Collection in AWS Collection',
                               style: TextStyle(color: Colors.red),
                             ),
                             onTap: () {
