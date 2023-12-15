@@ -18,6 +18,7 @@ final FirebaseAuth auth = FirebaseAuth.instance;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // INITIALIZE FIREBASE
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -25,6 +26,7 @@ Future<void> main() async {
   if (kDebugMode) {
     print("Firebase initalized successfully!");
   }
+  
   // INITIALIZE CAMERAS
   // try {
   //   WidgetsFlutterBinding.ensureInitialized();
@@ -35,17 +37,17 @@ Future<void> main() async {
   //   }
   // }
 
-  var host = '192.168.68.103';
-  if (kDebugMode) {
-    try {
-      FirebaseFirestore.instance.useFirestoreEmulator(host, 9150);
-      await FirebaseAuth.instance.useAuthEmulator(host, 9099);
-      await FirebaseStorage.instance.useStorageEmulator(host, 9199);
-    } catch (e) {
-      // ignore: avoid_print
-      print(e);
-    }
-  }
+  // var host = '192.168.68.103';
+  // if (kDebugMode) {
+  //   try {
+  //     FirebaseFirestore.instance.useFirestoreEmulator(host, 9150);
+  //     await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+  //     await FirebaseStorage.instance.useStorageEmulator(host, 9199);
+  //   } catch (e) {
+  //     // ignore: avoid_print
+  //     print(e);
+  //   }
+  // }
 
   //
   runApp(const MyApp());
@@ -56,26 +58,42 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final ValueNotifier<User?> userNotifier = ValueNotifier<User?>(null);
+
+    auth.authStateChanges().listen((User? user) {
+      userNotifier.value = user;
+    });
+
+    return MaterialApp(
       title: "Here!",
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
-    );
-  }
-}
-
-class Main extends StatelessWidget {
-  const Main({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Here"),
-      ),
-      body: const Center(
-        child: Text("Test!"),
+      home: ValueListenableBuilder<User?>(
+        valueListenable: userNotifier,
+        builder: (BuildContext context, User? user, Widget? child) {
+          if (user == null) {
+            return const LoginPage();
+          } else {
+            return const NavigationPage();
+          }
+        },
       ),
     );
   }
 }
+
+// class Main extends StatelessWidget {
+//   const Main({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("Here"),
+//       ),
+//       body: const Center(
+//         child: Text("Test!"),
+//       ),
+//     );
+//   }
+// }

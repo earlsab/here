@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:here/screens/settings.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -46,29 +47,28 @@ class SearchPage extends StatelessWidget {
                 
                 const Spacer(), // For space between greeting and buttons
 
-                Column( // Notifications button
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      child: const Icon(
-                        Icons.notifications_outlined,
-                        color: Color.fromARGB(255, 41, 112, 150),
-                        size: 30,),
-                    ),
-                  ],
-                ),
-                Column( // Settings button
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(6),
+              Column(
+                // Settings button
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const SettingsPage(),
+                          ),
+                        );
+                      },
                       child: const Icon(
                         Icons.settings_outlined,
                         color: Color.fromARGB(255, 41, 112, 150),
-                        size: 30,),
+                        size: 30,
+                      ),
                     ),
-                  ],
-                )
+                  ),
+                ],
+              )
               ]
             ),
 

@@ -6,6 +6,10 @@ class FirestoreService {
 
     // Save user data to Firestore
    Future<void> addUser(UserCredential userCredential) {
+    String? name = userCredential.user!.displayName;
+    if (name == null && userCredential.user!.email != null) {
+    name = userCredential.user!.email!.split('@')[0];
+    }
     return FirebaseFirestore.instance
     .collection('users')
     .doc(userCredential.user!.uid)
@@ -13,6 +17,7 @@ class FirestoreService {
       'uid': userCredential.user!.uid,
       'email': userCredential.user!.email,
       'photoURL': userCredential.user!.photoURL,
+      'name': name,
     }, SetOptions(merge: true));
   }
 

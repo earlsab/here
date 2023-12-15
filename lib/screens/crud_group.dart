@@ -6,7 +6,7 @@ import 'package:random_uuid_string/random_uuid_string.dart';
 class CrudGroup extends StatefulWidget {
   final String title;
 
-  const CrudGroup({Key? key, required this.title}) : super(key: key);
+  const CrudGroup({super.key, required this.title});
 
   @override
   State<CrudGroup> createState() => _CrudGroupState();
