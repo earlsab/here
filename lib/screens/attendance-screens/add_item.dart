@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:here/functions/globals.dart';
 import 'package:here/main.dart';
 import 'package:here/screens/attendance-screens/wait_screen.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,8 +25,13 @@ class _AddItemState extends State<AddItem> {
 
   GlobalKey<FormState> key = GlobalKey();
 
-  CollectionReference _reference =
-      FirebaseFirestore.instance.collection('attendance');
+  // CollectionReference _reference =
+  //     FirebaseFirestore.instance.collection('attendance');
+
+  CollectionReference _reference = FirebaseFirestore.instance
+      .collection('groups')
+      .doc(currentGroup)
+      .collection('events/${currentEvent}');
 
   String imageUrl = '';
   UploadTask? uploadTask;

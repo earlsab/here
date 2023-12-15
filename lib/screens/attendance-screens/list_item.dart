@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
- 
+
 import 'package:here/screens/attendance-screens/details_item.dart';
 import 'add_item.dart';
+import 'package:here/functions/globals.dart';
 
 // FIXME: Broken on debug mode. Some cache does not refresh and data lingers
 class ItemList extends StatelessWidget {
@@ -10,10 +11,10 @@ class ItemList extends StatelessWidget {
     _stream = _reference.snapshots();
   }
 
-  // 
-
-  CollectionReference _reference =
-      FirebaseFirestore.instance.collection(globals.currentGroup);
+  final CollectionReference _reference = FirebaseFirestore.instance
+      .collection('groups')
+      .doc(currentGroup)
+      .collection('events/$currentEvent');
 
   //_reference.get()  ---> returns Future<QuerySnapshot>
   //_reference.snapshots()--> Stream<QuerySnapshot> -- realtime updates
