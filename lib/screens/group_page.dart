@@ -220,6 +220,7 @@ class _GroupPageState extends State<GroupPage> {
                       if (groupsSnapshot.hasData && groupsSnapshot.data?.data() != null) {
                         Map<String, dynamic> data = groupsSnapshot.data?.data() as Map<String, dynamic>;
                         String groupName = data['groupName'];
+                        String groupID = data['groupID'];
 
                             // Navigator.of(context).push(
                             //   MaterialPageRoute(
@@ -247,7 +248,7 @@ return Card(
     );
     },
     child: ListTile(
-      title: Text(groupName),
+      title: Text(groupID),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
