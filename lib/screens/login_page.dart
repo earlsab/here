@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:here/screens/group_page.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:here/functions/firestore.dart';
 import 'navigation_menu.dart';
@@ -45,15 +46,18 @@ class _LoginPageState extends State<LoginPage> {
                           GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
                           UserCredential userCredential = await _auth.signInWithProvider(googleAuthProvider);
 
-                          if (userCredential.user != null) {
-                            await firestoreService.addUser(userCredential);
+                        // After successful login, navigate to HomePage
+                        if (userCredential.user != null) {
+                        
+                        // Save user data to Firestore
+                        firestoreService.addUser(userCredential);
 
-                            Timer.run(() {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(builder: (context) => const NavigationPage()),
-                              );
-                            });
-                          }
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const GroupPage()),
+                        );
+                      }
                         } catch (error) {
                           // Handle error
                         }

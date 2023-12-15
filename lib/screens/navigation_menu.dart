@@ -5,7 +5,7 @@ import 'package:here/screens/search_page.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
-
+  
   @override
   NavigationState createState() => NavigationState();
 }
@@ -18,6 +18,7 @@ class NavigationState extends State<NavigationPage> {
     const EventsPage(),
     const SearchPage(),
   ];
+
 
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/group_page.dart';
 import "package:here/screens/login_page.dart";
 import 'package:here/screens/navigation_menu.dart';
+import 'package:here/screens/settings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

@@ -6,6 +6,7 @@ import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/settings.dart';
 import 'package:here/functions/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:here/functions/globals.dart' as globals;
 
 class GroupPage extends StatefulWidget {
   const GroupPage({super.key});
@@ -220,7 +221,6 @@ class _GroupPageState extends State<GroupPage> {
                       if (groupsSnapshot.hasData && groupsSnapshot.data?.data() != null) {
                         Map<String, dynamic> data = groupsSnapshot.data?.data() as Map<String, dynamic>;
                         String groupName = data['groupName'];
-                        String groupID = data['groupID'];
 
                             // Navigator.of(context).push(
                             //   MaterialPageRoute(
@@ -241,14 +241,15 @@ return Card(
   ),
   child: InkWell(
     onTap: () {
+          globals.currentGroup = groupID;
           Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const NavigationPage(),
+          MaterialPageRoute(
+          builder: (context) => const NavigationPage(),
       ),
     );
     },
     child: ListTile(
-      title: Text(groupID),
+      title: Text(document.id),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
