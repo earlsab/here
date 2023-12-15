@@ -10,10 +10,20 @@ class CrudGroup extends StatefulWidget {
 
   @override
   State<CrudGroup> createState() => _CrudGroupState();
+  
 }
 
 class _CrudGroupState extends State<CrudGroup> {
   String randomText = RandomString.randomString(length: 6).toUpperCase();
+    String updatedTitle = '';
+
+  @override
+  void initState() {
+    super.initState();
+    if (title == 'Create Group' || title == 'Edit Group') {
+      updatedTitle = 'Confirm Details';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +131,7 @@ class _CrudGroupState extends State<CrudGroup> {
                     backgroundColor: const Color(0xFF749BC2), 
                   ),
                   child: Text(
-                    title,
+                    updatedTitle,
                     style: const TextStyle(color: Colors.white, fontSize: 16), 
                   ),
                 ),
