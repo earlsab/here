@@ -19,6 +19,27 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   // Firestore
   final FirestoreService firestoreService = FirestoreService();
+  
+    Future<bool> _onBackPressed() async {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Exit App'),
+        content: const Text('Do you want to exit the app?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    ).then((value) => value ?? false);
+  }
+
 
   @override
   void initState() {
@@ -32,7 +53,9 @@ class _EventsPageState extends State<EventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+    onWillPop: _onBackPressed,
+    child: Scaffold(
       backgroundColor: const Color.fromARGB(255, 228, 228, 228),
       body: SafeArea(
         child: Padding(
@@ -273,6 +296,7 @@ class _EventsPageState extends State<EventsPage> {
           ]),
         ),
       ),
+    ),
     );
   }
 }
