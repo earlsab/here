@@ -22,6 +22,8 @@ final groupDescriptionController = TextEditingController();
 class _GroupPageState extends State<GroupPage> {
   // Firestore
   final FirestoreService firestoreService = FirestoreService();
+  String? selectedGroupID;
+  
 
   Future<bool> _onBackPressed() async {
     return showDialog(
@@ -201,65 +203,47 @@ class _GroupPageState extends State<GroupPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
-      StreamBuilder<List<DocumentSnapshot>>(
-        stream: firestoreService.getGroupsStream(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<DocumentSnapshot> groupsList = snapshot.data!;
-
-
-            return Expanded(
-              child: ListView.builder(
-                itemCount: groupsList.length,
-                itemBuilder: (context, index) {
-                  DocumentSnapshot document = groupsList[index];
-                  String groupID = document.id;
-
-                  return StreamBuilder<DocumentSnapshot>(
-                    stream: FirebaseFirestore.instance
-                      .collection('groups')
-                      .doc(groupID)
-                      .snapshots(),
-                    builder: (context, groupsSnapshot) {
-                      if (groupsSnapshot.hasData && groupsSnapshot.data?.data() != null) {
-                        Map<String, dynamic> data = groupsSnapshot.data?.data() as Map<String, dynamic>;
-                        String groupName = data['groupName'];
-                        String groupDescription = data['groupDescription'];
-
-
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (context) => NavigationMenu(
-                            //       groupName: groupName,
-                            //       groupDescription: groupDescription,
-                            //       groupCode: groupCode,
-                            //       groupCreated: groupCreated,
-                            //       groupRole: groupRole,
-                            //       groupID: groupID,
-                            //     ),
-                            //   ),
-                            // );
-return Card(
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(15), // Adjust as needed
-  ),
-  child: InkWell(
-    onTap: () {
-          globals.currentGroup = groupID;
-          globals.currentGroupName = groupName;
-          Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-          builder: (context) => const NavigationPage(),
-      ),
-    );
-    },
-    child: Padding(
-      padding: const EdgeInsets.all(0.0), // Adjust the padding as needed
-    child: ListTile(
-      title: Text(groupName),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+                StreamBuilder<List<DocumentSnapshot>>(
+                  stream: firestoreService.getGroupsStream(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<DocumentSnapshot> groupsList = snapshot.data!;
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: groupsList.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot document = groupsList[index];
+                            String groupID = document.id;
+                            return StreamBuilder<DocumentSnapshot>(
+                              stream: FirebaseFirestore.instance
+                                .collection('groups')
+                                .doc(groupID)
+                                .snapshots(),
+                              builder: (context, groupsSnapshot) {
+                                if (groupsSnapshot.hasData && groupsSnapshot.data?.data() != null) {
+                                  Map<String, dynamic> data = groupsSnapshot.data?.data() as Map<String, dynamic>;
+                                  String groupName = data['groupName'];
+                                  String groupDescription = data['groupDescription'];
+                                  return Card(
+                                    color: selectedGroupID == groupID ? Colors.blue : null, // Change color if selected
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15), // Adjust as needed
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedGroupID = groupID; // Update the selected group ID
+                                        });
+                                        globals.currentGroup = groupID;
+                                        globals.currentGroupName = groupName;
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(0.0), // Adjust the padding as needed
+                                        child: ListTile(
+                                          title: Text(groupName),
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
           // Update button
           IconButton(
             onPressed: () {
