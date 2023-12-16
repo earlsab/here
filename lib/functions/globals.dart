@@ -6,3 +6,4 @@ String currentGroup = '';
 String currentUser = '';
 String currentGroupName = '';
 String currentGroupRole = '';
+String? selectedGroupID;
