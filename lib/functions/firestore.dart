@@ -66,6 +66,28 @@ class FirestoreService {
       },);
   }
 
+  // SHARE: share a group with another user given their email address
+  Future<void> shareGroup(String groupID, String userEmail,) async {
+    // Get the user document with the given email address
+    var userDoc = await FirebaseFirestore.instance
+      .collection('users')
+      .where('email', isEqualTo: userEmail)
+      .get();
+    
+    // Get the user's ID
+    var userID = userDoc.docs[0].id;
+
+    // Add the group ID and role to the 'userRoles' collection
+    return FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .set({
+        'groupRoles': {
+          groupID: 'Member'
+        }
+      }, SetOptions(merge: true));
+  }
+
   // EDIT: edit an event
   Future<void> editEvent(String eventName, String eventLocation, String date, String start, String end) {
 
