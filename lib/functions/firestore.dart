@@ -32,6 +32,22 @@ class FirestoreService {
       });
   }
 
+  // JOIN: join a group
+  Future<void> joinGroup(String groupID) {
+    // Get the current user's
+    var userID = _auth.currentUser!.uid;
+
+    // Add the group ID and role to the 'userRoles' collection
+    return FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .set({
+        'groupRoles': {
+          groupID: 'Member'
+        }
+      }, SetOptions(merge: true));
+  }
+
   // CREATE & UPDATE: add a new event
   Future<void> crudEvent(String eventName, String eventLocation, String date, String start, String end) {
 
