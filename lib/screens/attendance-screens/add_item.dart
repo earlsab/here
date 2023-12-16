@@ -28,7 +28,7 @@ class _AddItemState extends State<AddItem> {
   // CollectionReference _reference =
   //     FirebaseFirestore.instance.collection('attendance');
 
-  CollectionReference _reference = FirebaseFirestore.instance
+  final CollectionReference _reference = FirebaseFirestore.instance
       .collection('groups')
       .doc(currentGroup)
       .collection('events')
@@ -55,7 +55,8 @@ class _AddItemState extends State<AddItem> {
     // TODO: IMPLEMENT IMAGE COMPRESSOR
     ImagePicker imagePicker = ImagePicker();
     // TODO: AWS Has a 5MB Limit. Ensure photo is small in size.
-    XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
+    XFile? file = await imagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50);
     print('${file?.path}');
 
     if (file == null) return;
@@ -189,6 +190,7 @@ class _AddItemState extends State<AddItem> {
                               'attendance_status': "IN",
                               'Timestamp_Last_Attendance_Status':
                                   DateTime.now(),
+                              'current_group': currentGroup
                             };
                             // Customize the document ID here
                             String customDocumentId = studentId;
@@ -197,7 +199,8 @@ class _AddItemState extends State<AddItem> {
                           } else {
                             // Display toast box error for image not uploaded
                             Fluttertoast.showToast(
-                              msg: 'Error: Image not yet uploaded',
+                              msg:
+                                  'Error: Image not yet uploaded. Please wait for a few more seconds after it has reached 100%',
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.TOP,
                             );
