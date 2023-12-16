@@ -3,6 +3,8 @@ import 'package:here/functions/firestore.dart';
 import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:here/screens/group_page.dart';
+import 'package:flutter/services.dart'; 
+
 
 class JoinGroup extends StatefulWidget {
   const JoinGroup({super.key});
@@ -15,6 +17,18 @@ final TextEditingController groupCodeController = TextEditingController();
   // Firestore
   final FirestoreService firestoreService = FirestoreService();
 class _JoinGroupState extends State<JoinGroup> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Force the layout to Portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -18,6 +18,16 @@ class _LoginPageState extends State<LoginPage> {
   // Firestore
   final FirestoreService firestoreService = FirestoreService();
 
+    @override
+  void initState() {
+    super.initState();
+    // Force the layout to Portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     // ignore: deprecated_member_use

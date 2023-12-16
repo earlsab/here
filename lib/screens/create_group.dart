@@ -4,6 +4,8 @@ import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:here/screens/group_page.dart';
 import 'package:random_uuid_string/random_uuid_string.dart';
 import 'package:here/functions/firestore.dart';
+import 'package:flutter/services.dart';
+
 
 class CreateGroup extends StatefulWidget {
 
@@ -22,6 +24,16 @@ class _CreateGroupState extends State<CreateGroup> {
 
     // Firestore
   final FirestoreService firestoreService = FirestoreService();
+
+    @override
+  void initState() {
+    super.initState();
+    // Force the layout to Portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {

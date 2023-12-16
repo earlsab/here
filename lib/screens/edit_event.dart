@@ -3,6 +3,7 @@ import 'package:here/functions/firestore.dart';
 import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:intl/intl.dart'; 
+import 'package:flutter/services.dart';
 
 class EditEvent extends StatefulWidget {
   final String eventName;
@@ -32,7 +33,11 @@ class _EditEventState extends State<EditEvent> {
     formattedDate = widget.eventDate;
     formattedStartTime = widget.eventStart;
     formattedEndTime = widget.eventEnd;
-
+    // Force the layout to Portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
     // Firestore

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:here/screens/group_page.dart';
 import 'package:here/functions/firestore.dart';
+import 'package:flutter/services.dart';
+
 
 class EditGroup extends StatefulWidget {
   final String groupName;
@@ -29,6 +31,11 @@ class _EditGroupState extends State<EditGroup> {
     groupNameController.text = widget.groupName;
     groupDescriptionController.text = widget.groupDescription;
     randomText = widget.randomText;
+    // Force the layout to Portrait mode
+      SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   @override

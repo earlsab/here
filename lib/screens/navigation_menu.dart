@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:here/screens/group_page.dart';
 import 'package:here/screens/events_page.dart';
+import 'package:flutter/services.dart';
+
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -16,6 +18,16 @@ class NavigationState extends State<NavigationPage> {
     const GroupPage(),
     const EventsPage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Force the layout to Portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
 
   @override
@@ -45,9 +57,9 @@ class NavigationState extends State<NavigationPage> {
                   BottomNavigationBarItem(
                     icon: IconTheme(
                       data: IconThemeData(color: Colors.black), // Change the color as needed
-                      child: Icon(Icons.home),
+                      child: Icon(Icons.group_outlined),
                     ),
-                    label: 'Home',
+                    label: 'Groups',
                   ),
                   BottomNavigationBarItem(
                     backgroundColor: Colors.transparent,

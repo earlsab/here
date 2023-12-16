@@ -3,6 +3,8 @@ import 'package:here/functions/firestore.dart';
 import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:intl/intl.dart'; 
+import 'package:flutter/services.dart';
+
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({super.key});
@@ -45,6 +47,16 @@ class _CreateEventState extends State<CreateEvent> {
     String formattedStartTime = '';
     String formattedEndTime = '';
     String formattedDate = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // Force the layout to Portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {

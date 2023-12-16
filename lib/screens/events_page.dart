@@ -6,6 +6,8 @@ import 'package:here/screens/settings.dart';
 import 'package:here/functions/globals.dart' as globals;
 import 'package:here/functions/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
+
 
 class EventsPage extends StatefulWidget {
   const EventsPage({super.key});
@@ -17,6 +19,17 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   // Firestore
   final FirestoreService firestoreService = FirestoreService();
+
+  @override
+  void initState() {
+    super.initState();
+    // Force the layout to Portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

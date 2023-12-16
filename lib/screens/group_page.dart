@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/create_group.dart';
 import 'package:here/screens/edit_group.dart';
 import 'package:here/screens/join_group.dart';
-import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/settings.dart';
 import 'package:here/functions/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -64,7 +63,7 @@ class _GroupPageState extends State<GroupPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Welcome!",
+                            "Groups",
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontFamily: "Helvetica Neue",
@@ -155,7 +154,7 @@ class _GroupPageState extends State<GroupPage> {
                             ),
                           ),
                           child: const Text(
-                            '+ Join Group',
+                            'Join Group',
                             style: TextStyle(
                               fontFamily: "Helvetica Neue",
                               fontSize: 15,
