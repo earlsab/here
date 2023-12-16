@@ -23,7 +23,7 @@ class _EventsPageState extends State<EventsPage> {
       backgroundColor: const Color.fromARGB(255, 228, 228, 228),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(25.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(children: [
             Row(children: [
                Column(
@@ -122,6 +122,7 @@ class _EventsPageState extends State<EventsPage> {
                 ),
               ],
             ),
+             const SizedBox(height: 20),
             StreamBuilder<List<DocumentSnapshot>>(
               stream: FirestoreService().getEventsStream(),
               builder: (context, snapshot) {
@@ -180,6 +181,8 @@ class _EventsPageState extends State<EventsPage> {
                                       ),
                                     );
                                   },
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(0.0), 
                                   child: ListTile(
                                     title: Text(eventName),
                                     trailing: Row(
@@ -200,7 +203,7 @@ class _EventsPageState extends State<EventsPage> {
                                              ),
                                             );
                                           },
-                                          icon: const Icon(Icons.settings),
+                                          icon: const Icon(Icons.edit),
                                         ),
                                         IconButton(
                                           onPressed: () {
@@ -208,9 +211,9 @@ class _EventsPageState extends State<EventsPage> {
                                               context: context,
                                               builder: (context) => AlertDialog(
                                                 title:
-                                                    const Text('Delete Group'),
+                                                    const Text('Delete Event'),
                                                 content: const Text(
-                                                    'Do you want to delete this group?'),
+                                                    'Do you want to delete this event?'),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () =>
@@ -243,6 +246,7 @@ class _EventsPageState extends State<EventsPage> {
                                       ],
                                     ),
                                   ),
+                                ),
                                 ),
                               );
                             } else {
