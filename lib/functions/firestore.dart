@@ -74,6 +74,8 @@ class FirestoreService {
       .where('email', isEqualTo: userEmail)
       .get();
     
+    // If the user exists
+    if (userDoc.docs.isNotEmpty) {
     // Get the user's ID
     var userID = userDoc.docs[0].id;
 
@@ -86,6 +88,10 @@ class FirestoreService {
           groupID: 'Member'
         }
       }, SetOptions(merge: true));
+  } else {
+      // If the user does not exist, throw an error
+      throw Exception('User does not exist');
+      }
   }
 
   // EDIT: edit an event
