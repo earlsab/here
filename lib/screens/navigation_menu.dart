@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:here/screens/home_page.dart';
 import 'package:here/screens/events_page.dart';
-import 'package:here/screens/search_page.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});

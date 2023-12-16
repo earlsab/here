@@ -106,33 +106,6 @@ class _CrudGroupState extends State<CrudGroup> {
                     ),
                   ),
                   const SizedBox(width: 10), // Add some space between the TextField and the Button
-                  Expanded(
-                    child: SizedBox(
-                      height: 55, // Set the height you want here
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            randomText = RandomString.randomString(length: 6).toUpperCase();
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF91C8E4), // This sets the text color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10), // This makes the corners rounded
-                          ),
-                        ),
-                        child: const Text(
-                          'Generate',
-                          style: TextStyle(
-                            fontFamily: "Helvetica Neue",
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
