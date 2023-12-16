@@ -63,7 +63,7 @@ class FirestoreService {
         'eventStart': start,
         'eventEnd': end,
         'eventCreated': Timestamp.now(),
-      });
+      },);
   }
 
   // Save user data to Firestore

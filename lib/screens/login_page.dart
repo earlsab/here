@@ -4,7 +4,6 @@ import 'package:here/screens/group_page.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:here/functions/firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:here/functions/globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
