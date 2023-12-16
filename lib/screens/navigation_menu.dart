@@ -16,7 +16,6 @@ class NavigationState extends State<NavigationPage> {
   final tabs = [
     const HomePage(),
     const EventsPage(),
-    const SearchPage(),
   ];
 
 
@@ -58,14 +57,6 @@ class NavigationState extends State<NavigationPage> {
                       child: Icon(Icons.event_outlined),
                     ),
                     label: 'Events',
-                  ),
-                  BottomNavigationBarItem(
-                    backgroundColor: Colors.transparent,
-                    icon: IconTheme(
-                      data: IconThemeData(color: Colors.black), // Change the color as needed
-                      child: Icon(Icons.settings),
-                    ),
-                    label: 'Settings',
                   ),
                 ],
                 onTap: (index) {
