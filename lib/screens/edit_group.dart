@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:here/screens/home_page.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
+import 'package:here/screens/group_page.dart';
 import 'package:here/functions/firestore.dart';
 
 class EditGroup extends StatefulWidget {
@@ -50,7 +50,7 @@ class _EditGroupState extends State<EditGroup> {
                     onPressed: () {
                       Navigator.of(context).pop(
                         MaterialPageRoute(
-                            builder: (context) => const HomePage()),
+                            builder: (context) => const GroupPage()),
                       );
                     },
                   ),
@@ -125,7 +125,7 @@ class _EditGroupState extends State<EditGroup> {
                   // Close the box
                   Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                  builder: (context) => const HomePage()),
+                  builder: (context) => const GroupPage()),
                   );
                   }, 
                   style: ElevatedButton.styleFrom(

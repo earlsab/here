@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:here/screens/navigation_menu.dart';
+import 'package:here/screens/group_page.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:here/functions/firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:here/functions/globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -60,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                           // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => const NavigationPage()),
+                            MaterialPageRoute(builder: (context) => const GroupPage()),
                           );
                         }
                           } catch (error) {
