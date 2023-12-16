@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:here/functions/firestore.dart';
+import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:here/screens/group_page.dart';
 
@@ -64,7 +65,7 @@ class _JoinGroupState extends State<JoinGroup> {
                   // Close the box
                   Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                  builder: (context) => const GroupPage()),
+                  builder: (context) => const NavigationPage()),
                   );
                   },
                   style: ElevatedButton.styleFrom(

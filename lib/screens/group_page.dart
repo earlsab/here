@@ -240,7 +240,7 @@ class _GroupPageState extends State<GroupPage> {
                                         // Navigate to NavigationPage
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => NavigationPage()),
+                                          MaterialPageRoute(builder: (context) => const NavigationPage()),
                                         );
                                       },
                                       child: Padding(
