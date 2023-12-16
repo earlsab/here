@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:here/screens/group_page.dart';
+import 'package:here/screens/navigation_menu.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:here/functions/firestore.dart';
 import 'package:flutter/services.dart';
@@ -58,9 +58,9 @@ class _LoginPageState extends State<LoginPage> {
                           firestoreService.addUser(userCredential);
 
                           // ignore: use_build_context_synchronously
-                          Navigator.pushReplacement(
+                          Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const GroupPage()),
+                            MaterialPageRoute(builder: (context) => const NavigationPage()),
                           );
                         }
                           } catch (error) {
