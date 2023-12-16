@@ -31,7 +31,9 @@ class _AddItemState extends State<AddItem> {
   CollectionReference _reference = FirebaseFirestore.instance
       .collection('groups')
       .doc(currentGroup)
-      .collection('events/${currentEvent}');
+      .collection('events')
+      .doc(currentEvent)
+      .collection('attendance');
 
   String imageUrl = '';
   UploadTask? uploadTask;

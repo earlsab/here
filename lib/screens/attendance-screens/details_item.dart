@@ -15,7 +15,9 @@ class ItemDetails extends StatefulWidget {
     _reference = FirebaseFirestore.instance
         .collection('groups')
         .doc(currentGroup)
-        .collection('events/$currentEvent')
+        .collection('events')
+        .doc(currentEvent)
+        .collection('attendance')
         .doc(item['id']);
 
     _futureData = _reference.get().then(

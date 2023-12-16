@@ -14,7 +14,9 @@ class ItemList extends StatelessWidget {
   final CollectionReference _reference = FirebaseFirestore.instance
       .collection('groups')
       .doc(currentGroup)
-      .collection('events/$currentEvent');
+      .collection('events')
+      .doc(currentEvent)
+      .collection('attendance');
 
   //_reference.get()  ---> returns Future<QuerySnapshot>
   //_reference.snapshots()--> Stream<QuerySnapshot> -- realtime updates
