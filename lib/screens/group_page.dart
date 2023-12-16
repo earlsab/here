@@ -292,7 +292,39 @@ class _GroupPageState extends State<GroupPage> {
           ),
           IconButton(
             onPressed: () {
-              // Add your share functionality here
+              final textController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Add a User'),
+        // Text user input
+        content: TextField(
+          controller: textController,
+        ),
+        actions: [
+          // Button to save
+          ElevatedButton(
+            onPressed: () async {
+              try {
+                await firestoreService.shareGroup(globals.currentGroup, textController.text);
+                // Clear the text controller
+                textController.clear();
+                // Close the box
+                // ignore: use_build_context_synchronously
+                Navigator.pop(context);
+              } catch (e) {
+                // Show the error message in a SnackBar
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(e.toString())),
+                );
+              }
+            },
+            child: const Text("Add"),
+          )
+        ],
+      ),
+    );
             },
             icon: const Icon(Icons.share),
           ),
