@@ -5,14 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:here/functions/globals.dart' as globals;
 
 class NavigationPage extends StatefulWidget {
-  const NavigationPage({super.key});
+  final int initialIndex;
+
+  const NavigationPage({super.key, this.initialIndex = 0});
 
   @override
   NavigationState createState() => NavigationState();
 }
 
 class NavigationState extends State<NavigationPage> {
-  int _currentIndex = 0;
+  late int _currentIndex;
 
   final tabs = [
     const GroupPage(),
@@ -22,6 +24,7 @@ class NavigationState extends State<NavigationPage> {
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.initialIndex;
     // Force the layout to Portrait mode
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

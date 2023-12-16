@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/create_group.dart';
 import 'package:here/screens/edit_group.dart';
 import 'package:here/screens/join_group.dart';
+import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/settings.dart';
 import 'package:here/functions/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -234,6 +235,12 @@ class _GroupPageState extends State<GroupPage> {
                                         globals.currentGroup = groupID;
                                         globals.currentGroupName = groupName;
                                         
+                                          Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => NavigationPage(initialIndex: 1),
+                                          ),
+                                        );
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(0.0), // Adjust the padding as needed

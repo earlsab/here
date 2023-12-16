@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:here/screens/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:here/functions/globals.dart' as globals;
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -41,6 +42,9 @@ class SettingsPage extends StatelessWidget {
                 width: double.infinity, // Set the width you want here
                 child: ElevatedButton(
                   onPressed: () {
+                    globals.currentGroup = '';
+                    globals.currentEvent = '';
+                    globals.selectedGroupID = '';
                     FirebaseAuth.instance.signOut().then((_) {
                         Navigator.pushReplacement(
                           context,
