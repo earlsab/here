@@ -238,12 +238,6 @@ class _EventsPageState extends State<EventsPage> {
                                           },
                                           icon: const Icon(Icons.delete),
                                         ),
-                                        IconButton(
-                                          onPressed: () {
-                                            // Add your share functionality here
-                                          },
-                                          icon: const Icon(Icons.share),
-                                        ),
                                       ],
                                     ),
                                   ),

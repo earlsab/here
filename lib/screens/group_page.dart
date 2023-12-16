@@ -238,7 +238,7 @@ class _GroupPageState extends State<GroupPage> {
                                         globals.currentGroupName = groupName;
                                         
                                         // Navigate to NavigationPage
-                                        Navigator.pushReplacement(
+                                        Navigator.push(
                                           context,
                                           MaterialPageRoute(builder: (context) => NavigationPage()),
                                         );
@@ -292,6 +292,7 @@ class _GroupPageState extends State<GroupPage> {
           ),
           IconButton(
             onPressed: () {
+              groupID = globals.currentGroup;
               final textController = TextEditingController();
     showDialog(
       context: context,
