@@ -236,6 +236,12 @@ class _GroupPageState extends State<GroupPage> {
                                         });
                                         globals.currentGroup = groupID;
                                         globals.currentGroupName = groupName;
+                                        
+                                        // Navigate to NavigationPage
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => NavigationPage()),
+                                        );
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(0.0), // Adjust the padding as needed
