@@ -49,7 +49,7 @@ class FirestoreService {
   }
 
   // CREATE & UPDATE: add a new event
-  Future<void> crudEvent(String eventName, String eventLocation, String date, String start, String end) {
+  Future<void> createEvent(String eventName, String eventLocation, String date, String start, String end) {
 
     // Add the event to the 'events' collection
     return FirebaseFirestore.instance
@@ -63,6 +63,24 @@ class FirestoreService {
         'eventStart': start,
         'eventEnd': end,
         'eventCreated': Timestamp.now(),
+      },);
+  }
+
+  // EDIT: edit an event
+  Future<void> editEvent(String eventName, String eventLocation, String date, String start, String end) {
+
+    // Edit the event in the 'events' collection
+    return FirebaseFirestore.instance
+      .collection('groups')
+      .doc(currentGroup)
+      .collection('events')
+      .doc(currentEvent)
+      .update({
+        'eventName': eventName,
+        'eventLocation': eventLocation,
+        'eventDate': date,
+        'eventStart': start,
+        'eventEnd': end,
       },);
   }
 

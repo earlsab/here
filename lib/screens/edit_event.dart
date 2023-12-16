@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:here/functions/firestore.dart';
+import 'package:here/functions/globals.dart';
 import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:intl/intl.dart'; 
@@ -159,7 +160,7 @@ class _EditEventState extends State<EditEvent> {
               child: SizedBox(
                 width: double.infinity, // Set the width you want here
                 child: ElevatedButton(
-                  onPressed: () { firestoreService.crudEvent(
+                  onPressed: () { firestoreService.editEvent(
                     eventNameController.text, 
                     eventLocationController.text, 
                     formattedDate,

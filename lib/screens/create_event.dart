@@ -141,7 +141,7 @@ class _CreateEventState extends State<CreateEvent> {
               child: SizedBox(
                 width: double.infinity, // Set the width you want here
                 child: ElevatedButton(
-                  onPressed: () { firestoreService.crudEvent(
+                  onPressed: () { firestoreService.createEvent(
                     eventNameController.text, 
                     eventLocationController.text, 
                     formattedDate,

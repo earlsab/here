@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:here/screens/group_page.dart';
 import 'package:random_uuid_string/random_uuid_string.dart';
@@ -117,7 +116,7 @@ class _CreateGroupState extends State<CreateGroup> {
                   // Close the box
                   Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                  builder: (context) => const NavigationPage()),
+                  builder: (context) => const GroupPage()),
                   );
                   }, 
                   style: ElevatedButton.styleFrom(

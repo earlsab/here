@@ -3,7 +3,7 @@ import 'package:here/screens/attendance-screens/list_item.dart';
 import 'package:here/screens/create_event.dart';
 import 'package:here/screens/edit_event.dart';
 import 'package:here/screens/settings.dart';
-import 'package:here/functions/globals.dart';
+import 'package:here/functions/globals.dart' as globals;
 import 'package:here/functions/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -42,7 +42,7 @@ class _EventsPageState extends State<EventsPage> {
                     textAlign: TextAlign.left,
                   ),
                   Text(
-                    "Current Group: $currentGroupName",
+                    "Current Group: ${globals.currentGroupName}",
                     style: const TextStyle(
                       fontFamily: "Helvetica Neue",
                       fontSize: 13,
@@ -134,14 +134,14 @@ class _EventsPageState extends State<EventsPage> {
                       itemCount: eventsList.length,
                       itemBuilder: (context, index) {
                         DocumentSnapshot document = eventsList[index];
-                        String groupID = document.id;
+                        String eventID = document.id;
 
                         return StreamBuilder<DocumentSnapshot>(
                           stream: FirebaseFirestore.instance
                               .collection('groups')
-                              .doc(currentGroup)
+                              .doc(globals.currentGroup)
                               .collection('events')
-                              .doc(groupID)
+                              .doc(eventID)
                               .snapshots(),
                           builder: (context, eventsSnapshot) {
                             if (eventsSnapshot.hasData &&
@@ -174,7 +174,7 @@ class _EventsPageState extends State<EventsPage> {
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    currentEvent = document.id;
+                                    globals.currentEvent = document.id;
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => ItemList(),
@@ -191,6 +191,7 @@ class _EventsPageState extends State<EventsPage> {
                                         // Update button
                                         IconButton(
                                           onPressed: () {
+                                            globals.currentEvent = document.id;
                                             Navigator.of(context).push(
                                             MaterialPageRoute(
                                                builder: (context) => EditEvent(
