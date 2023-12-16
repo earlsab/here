@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:here/functions/firestore.dart';
-import 'package:here/functions/globals.dart';
 import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:intl/intl.dart'; 
