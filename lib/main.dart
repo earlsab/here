@@ -1,13 +1,9 @@
-import 'package:camera/camera.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:here/screens/group_page.dart';
 import "package:here/screens/login_page.dart";
-import 'package:here/screens/navigation_menu.dart';
-import 'package:here/screens/settings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -29,29 +25,6 @@ Future<void> main() async {
     print("Firebase initalized successfully!");
   }
 
-  // INITIALIZE CAMERAS
-  // try {
-  //   WidgetsFlutterBinding.ensureInitialized();
-  //   cameras = await availableCameras();
-  // } on CameraException catch (e) {
-  //   if (kDebugMode) {
-  //     print('Camera error: ${e.code}, ${e.description}');
-  //   }
-  // }
-
-  // var host = '192.168.68.103';
-  // if (kDebugMode) {
-  //   try {
-  //     FirebaseFirestore.instance.useFirestoreEmulator(host, 9150);
-  //     await FirebaseAuth.instance.useAuthEmulator(host, 9099);
-  //     await FirebaseStorage.instance.useStorageEmulator(host, 9199);
-  //   } catch (e) {
-  //     // ignore: avoid_print
-  //     print(e);
-  //   }
-  // }
-
-  //
   runApp(const MyApp());
 }
 
@@ -83,19 +56,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class Main extends StatelessWidget {
-//   const Main({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Here"),
-//       ),
-//       body: const Center(
-//         child: Text("Test!"),
-//       ),
-//     );
-//   }
-// }

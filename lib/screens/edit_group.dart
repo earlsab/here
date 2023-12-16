@@ -4,33 +4,24 @@ import 'package:here/screens/group_page.dart';
 import 'package:random_uuid_string/random_uuid_string.dart';
 import 'package:here/functions/firestore.dart';
 
-class CrudGroup extends StatefulWidget {
+class EditGroup extends StatefulWidget {
   final String title;
 
-  const CrudGroup({super.key, required this.title});
+  const EditGroup({super.key, required this.title});
 
   @override
-  State<CrudGroup> createState() => _CrudGroupState();
+  State<EditGroup> createState() => _EditGroupState();
   
 }
 
 final TextEditingController groupNameController = TextEditingController();
 final TextEditingController groupDescriptionController = TextEditingController();
 
-class _CrudGroupState extends State<CrudGroup> {
+class _EditGroupState extends State<EditGroup> {
   String randomText = RandomString.randomString(length: 6).toUpperCase();
-    String updatedTitle = '';
 
     // Firestore
   final FirestoreService firestoreService = FirestoreService();
-
-  @override
-  void initState() {
-    super.initState();
-    if (title == 'Create Group' || title == 'Edit Group') {
-      updatedTitle = 'Confirm Details';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,9 +123,9 @@ class _CrudGroupState extends State<CrudGroup> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF749BC2), 
                   ),
-                  child: Text(
-                    updatedTitle,
-                    style: const TextStyle(color: Colors.white, fontSize: 16), 
+                  child: const Text(
+                    'Confirm Details',
+                    style: TextStyle(color: Colors.white, fontSize: 16), 
                   ),
                 ),
               ),

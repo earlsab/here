@@ -1,8 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:here/screens/settings.dart';
+import 'package:here/functions/firestore.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  // Firestore
+  final FirestoreService firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +25,15 @@ class HomePage extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Expanded(
+                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Hello, Earlanfdfdsfds!",
+                          FirebaseAuth.instance.currentUser?.email ?? 'No email',
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: "Helvetica Neue",
                             fontSize: 30,
                             fontWeight: FontWeight.w700,
@@ -32,7 +42,7 @@ class HomePage extends StatelessWidget {
                           ),
                           textAlign: TextAlign.left
                         ),
-                        Text(
+                        const Text(
                           "Viewing as SU/CCS (Member)",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(

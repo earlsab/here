@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:here/screens/crud_group.dart';
+import 'package:here/screens/create_group.dart';
 import 'package:here/screens/join_group.dart';
 import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/settings.dart';
@@ -172,7 +172,7 @@ class _GroupPageState extends State<GroupPage> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => CrudGroup(title: title),
+                                builder: (context) => CreateGroup(title: title),
                               ),
                             );
                           },

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:here/screens/attendance-screens/list_item.dart';
-import 'package:here/screens/crud_event.dart';
+import 'package:here/screens/create_event.dart';
 import 'package:here/screens/settings.dart';
 import 'package:here/functions/globals.dart' as globals;
 import 'package:here/functions/firestore.dart';

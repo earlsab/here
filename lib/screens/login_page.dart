@@ -3,9 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:here/screens/group_page.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:here/functions/firestore.dart';
-import 'navigation_menu.dart';
-import 'dart:async';
-import 'package:flutter/services.dart'; // Import services for SystemNavigator
+import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
