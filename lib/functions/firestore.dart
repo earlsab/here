@@ -67,7 +67,7 @@ class FirestoreService {
   }
 
   // SHARE: share a group with another user given their email address
-  Future<void> shareGroup(String groupID, String userEmail,) async {
+  Future<String> shareGroup(String groupID, String userEmail,) async {
     // Get the user document with the given email address
     var userDoc = await FirebaseFirestore.instance
       .collection('users')
@@ -76,22 +76,24 @@ class FirestoreService {
     
     // If the user exists
     if (userDoc.docs.isNotEmpty) {
-    // Get the user's ID
-    var userID = userDoc.docs[0].id;
+      // Get the user's ID
+      var userID = userDoc.docs[0].id;
 
-    // Add the group ID and role to the 'userRoles' collection
-    return FirebaseFirestore.instance
-      .collection('users')
-      .doc(userID)
-      .set({
-        'groupRoles': {
-          groupID: 'Member'
-        }
-      }, SetOptions(merge: true));
-  } else {
+      // Add the group ID and role to the 'userRoles' collection
+      await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .set({
+          'groupRoles': {
+            groupID: 'Member'
+          }
+        }, SetOptions(merge: true));
+
+      return 'User added to the group';
+    } else {
       // If the user does not exist, throw an error
       throw Exception('User does not exist');
-      }
+    }
   }
 
   // EDIT: edit an event

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:here/screens/create_group.dart';
@@ -235,12 +237,6 @@ class _GroupPageState extends State<GroupPage> {
                                         globals.currentGroup = groupID;
                                         globals.currentGroupName = groupName;
                                         
-                                          Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => NavigationPage(initialIndex: 1),
-                                          ),
-                                        );
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(0.0), // Adjust the padding as needed
@@ -303,25 +299,33 @@ class _GroupPageState extends State<GroupPage> {
         ),
         actions: [
           // Button to save
-          ElevatedButton(
-            onPressed: () async {
-              try {
-                await firestoreService.shareGroup(globals.currentGroup, textController.text);
-                // Clear the text controller
-                textController.clear();
-                // Close the box
-                // ignore: use_build_context_synchronously
-                Navigator.pop(context);
-              } catch (e) {
-                // Show the error message in a SnackBar
-                // ignore: use_build_context_synchronously
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(e.toString())),
-                );
-              }
-            },
-            child: const Text("Add"),
-          )
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  String message = await firestoreService.shareGroup(globals.currentGroup, textController.text);
+                  // Clear the text controller
+                  textController.clear();
+                  // Close the box
+                  Navigator.pop(context);
+                  // Show the success message in a SnackBar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(message)),
+                  );
+                } catch (e) {
+                  // Show the error message in a SnackBar
+                  String errorMessage;
+                  if (e.toString().contains('Exception')) {
+                    errorMessage = 'User does not exist';
+                  } else {
+                    errorMessage = e.toString();
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(errorMessage)),
+                  );
+                }
+              },
+              child: const Text("Add"),
+            )
         ],
       ),
     );
