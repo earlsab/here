@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:here/functions/firestore.dart';
+import 'package:here/screens/home_page.dart';
+import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
-import 'package:here/screens/group_page.dart';
 
 class JoinGroup extends StatefulWidget {
   const JoinGroup({super.key});
@@ -12,6 +14,8 @@ class JoinGroup extends StatefulWidget {
 final TextEditingController groupCodeController = TextEditingController();
 
 class _JoinGroupState extends State<JoinGroup> {
+  // Firestore
+  final FirestoreService firestoreService = FirestoreService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +35,7 @@ class _JoinGroupState extends State<JoinGroup> {
                     onPressed: () {
                       Navigator.of(context).pop(
                         MaterialPageRoute(
-                            builder: (context) => const GroupPage()),
+                            builder: (context) => const HomePage()),
                       );
                     },
                   ),
@@ -47,14 +51,27 @@ class _JoinGroupState extends State<JoinGroup> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10.0), 
-              child: AnimatedTextField(label: "Group Code", suffix: null, controller: groupCodeController ),
+              child: AnimatedTextField(
+                label: "Group Code", 
+              suffix: null, controller: 
+              groupCodeController ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: SizedBox(
                 width: double.infinity, // Set the width you want here
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () { firestoreService.joinGroup(groupCodeController.text);
+          
+                  // Clear the text controller
+                  groupCodeController.clear();
+                  
+                  // Close the box
+                  Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                  builder: (context) => const NavigationPage()),
+                  );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF749BC2), 
                   ),
