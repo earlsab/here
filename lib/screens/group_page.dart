@@ -242,6 +242,7 @@ return Card(
   child: InkWell(
     onTap: () {
           globals.currentGroup = groupID;
+          globals.currentGroupName = groupName;
           Navigator.of(context).push(
           MaterialPageRoute(
           builder: (context) => const NavigationPage(),

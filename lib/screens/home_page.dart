@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:here/functions/globals.dart';
 import 'package:here/screens/settings.dart';
 import 'package:here/functions/firestore.dart';
 
@@ -42,10 +43,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                           textAlign: TextAlign.left
                         ),
-                        const Text(
-                          "Viewing as SU/CCS (Member)",
+                         Text(
+                          "Current Group: $currentGroupName",
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: "Helvetica Neue",
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
