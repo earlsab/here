@@ -157,7 +157,7 @@ class _CreateEventState extends State<CreateEvent> {
                   _endTimeController.clear();
                   
                   // Close the box
-                  Navigator.of(context).pushReplacement(
+                  Navigator.of(context).pop(
                   MaterialPageRoute(
                   builder: (context) => const NavigationPage()),
                   );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:here/screens/group_page.dart';
 import 'package:here/screens/home_page.dart';
 import 'package:here/screens/events_page.dart';
 
@@ -13,7 +14,7 @@ class NavigationState extends State<NavigationPage> {
   int _currentIndex = 0;
 
   final tabs = [
-    const HomePage(),
+    const GroupPage(),
     const EventsPage(),
   ];
 

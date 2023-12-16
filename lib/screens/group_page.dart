@@ -247,7 +247,7 @@ return Card(
     onTap: () {
           globals.currentGroup = groupID;
           globals.currentGroupName = groupName;
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
           MaterialPageRoute(
           builder: (context) => const NavigationPage(),
       ),
