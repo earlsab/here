@@ -15,7 +15,7 @@ class GroupPage extends StatefulWidget {
   State<GroupPage> createState() => _GroupPageState();
 }
 
-String title = 'Create Group';
+
 
 class _GroupPageState extends State<GroupPage> {
   // Firestore
@@ -50,7 +50,7 @@ class _GroupPageState extends State<GroupPage> {
         backgroundColor: const Color.fromARGB(255, 228, 228, 228),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(25.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start, // Aligns children to the left
               children: [
@@ -91,7 +91,7 @@ class _GroupPageState extends State<GroupPage> {
                     ),
                     Container(width: 50),
                     Padding(
-                      padding: const EdgeInsets.only(left: 0), // Add some space to the left
+                      padding: const EdgeInsets.only(left: 2), // Add some space to the left
                       child: Column(
                         // Settings button
                         children: [
@@ -172,7 +172,7 @@ class _GroupPageState extends State<GroupPage> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => CreateGroup(title: title),
+                                builder: (context) => const CreateGroup(),
                               ),
                             );
                           },
@@ -184,9 +184,9 @@ class _GroupPageState extends State<GroupPage> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
-                          child: Text(
-                            title,
-                            style: const TextStyle(
+                          child: const Text(
+                            "Create Group",
+                            style: TextStyle(
                               fontFamily: "Helvetica Neue",
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
@@ -198,6 +198,7 @@ class _GroupPageState extends State<GroupPage> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 20),
       StreamBuilder<List<DocumentSnapshot>>(
         stream: firestoreService.getGroupsStream(),
         builder: (context, snapshot) {
@@ -234,7 +235,6 @@ class _GroupPageState extends State<GroupPage> {
                             //     ),
                             //   ),
                             // );
-
 return Card(
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(15), // Adjust as needed
@@ -249,6 +249,8 @@ return Card(
       ),
     );
     },
+    child: Padding(
+      padding: const EdgeInsets.all(0.0), // Adjust the padding as needed
     child: ListTile(
       title: Text(groupName),
       trailing: Row(
@@ -306,6 +308,7 @@ return Card(
           ),
         ],
       ),
+    ),
     ),
   ),
 );

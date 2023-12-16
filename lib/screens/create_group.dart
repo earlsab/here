@@ -5,9 +5,8 @@ import 'package:random_uuid_string/random_uuid_string.dart';
 import 'package:here/functions/firestore.dart';
 
 class CreateGroup extends StatefulWidget {
-  final String title;
 
-  const CreateGroup({super.key, required this.title});
+  const CreateGroup({super.key});
 
   @override
   State<CreateGroup> createState() => _CreateGroupState();
@@ -46,9 +45,9 @@ class _CreateGroupState extends State<CreateGroup> {
                       );
                     },
                   ),
-                   Text(
-                    title,
-                    style: const TextStyle(
+                   const Text(
+                    "Create Group",
+                    style: TextStyle(
                       fontFamily: "Helvetica Neue", 
                       fontSize: 50,
                       fontWeight: FontWeight.bold),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/attendance-screens/list_item.dart';
 import 'package:here/screens/create_event.dart';
 import 'package:here/screens/settings.dart';
-import 'package:here/functions/globals.dart' as globals;
+import 'package:here/functions/globals.dart';
 import 'package:here/functions/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -25,12 +25,12 @@ class _EventsPageState extends State<EventsPage> {
           padding: const EdgeInsets.all(25.0),
           child: Column(children: [
             Row(children: [
-              const Column(
+               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Home",
+                  const Text(
+                    "Events",
                     style: TextStyle(
                       fontFamily: "Helvetica Neue",
                       fontSize: 30,
@@ -41,8 +41,8 @@ class _EventsPageState extends State<EventsPage> {
                     textAlign: TextAlign.left,
                   ),
                   Text(
-                    "Viewing as SU/CCS (Member)",
-                    style: TextStyle(
+                    "Current Group: $currentGroupName",
+                    style: const TextStyle(
                       fontFamily: "Helvetica Neue",
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -137,7 +137,7 @@ class _EventsPageState extends State<EventsPage> {
                         return StreamBuilder<DocumentSnapshot>(
                           stream: FirebaseFirestore.instance
                               .collection('groups')
-                              .doc(globals.currentGroup)
+                              .doc(currentGroup)
                               .collection('events')
                               .doc(groupID)
                               .snapshots(),
@@ -168,7 +168,7 @@ class _EventsPageState extends State<EventsPage> {
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    globals.currentEvent = document.id;
+                                    currentEvent = document.id;
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => ItemList(),
