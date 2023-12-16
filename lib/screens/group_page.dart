@@ -22,8 +22,6 @@ final groupDescriptionController = TextEditingController();
 class _GroupPageState extends State<GroupPage> {
   // Firestore
   final FirestoreService firestoreService = FirestoreService();
-  String? selectedGroupID;
-  
 
   Future<bool> _onBackPressed() async {
     return showDialog(
@@ -225,23 +223,18 @@ class _GroupPageState extends State<GroupPage> {
                                   String groupName = data['groupName'];
                                   String groupDescription = data['groupDescription'];
                                   return Card(
-                                    color: selectedGroupID == groupID ? Colors.blue : null, // Change color if selected
+                                    color: globals.selectedGroupID == groupID ? Colors.blue : null, // Change color if selected
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15), // Adjust as needed
                                     ),
                                     child: InkWell(
                                       onTap: () {
                                         setState(() {
-                                          selectedGroupID = groupID; // Update the selected group ID
+                                          globals.selectedGroupID = groupID; // Update the selected group ID
                                         });
                                         globals.currentGroup = groupID;
                                         globals.currentGroupName = groupName;
                                         
-                                        // Navigate to NavigationPage
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => const NavigationPage()),
-                                        );
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(0.0), // Adjust the padding as needed
