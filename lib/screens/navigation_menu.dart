@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:here/screens/group_page.dart';
-import 'package:here/screens/home_page.dart';
 import 'package:here/screens/events_page.dart';
 
 class NavigationPage extends StatefulWidget {

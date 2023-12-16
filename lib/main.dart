@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/group_page.dart';
 import "package:here/screens/login_page.dart";
 import 'package:firebase_core/firebase_core.dart';
+import 'package:here/screens/navigation_menu.dart';
 import 'firebase_options.dart';
 
 // late List<CameraDescription> cameras;
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
           if (user == null) {
             return const LoginPage();
           } else {
-            return const GroupPage();
+            return const NavigationPage();
           }
         },
       ),
