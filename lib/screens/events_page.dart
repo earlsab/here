@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:here/screens/attendance-screens/list_item.dart';
 import 'package:here/screens/create_event.dart';
+import 'package:here/screens/edit_event.dart';
 import 'package:here/screens/settings.dart';
 import 'package:here/functions/globals.dart';
 import 'package:here/functions/firestore.dart';
@@ -147,6 +148,10 @@ class _EventsPageState extends State<EventsPage> {
                               Map<String, dynamic> data = eventsSnapshot.data
                                   ?.data() as Map<String, dynamic>;
                               String eventName = data['eventName'];
+                              String eventLocation = data['eventLocation'];
+                              String eventDate = data['eventDate'];
+                              String eventEnd = data['eventEnd'];
+                              String eventStart = data['eventStart'];
 
                               // Navigator.of(context).push(
                               //   MaterialPageRoute(
@@ -183,19 +188,17 @@ class _EventsPageState extends State<EventsPage> {
                                         // Update button
                                         IconButton(
                                           onPressed: () {
-                                            // Navigator.of(context).push(
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) => CrudGroup(
-                                            //       title: 'Update Group',
-                                            //       groupName: groupName,
-                                            //       groupDescription: groupDescription,
-                                            //       groupCode: groupCode,
-                                            //       groupCreated: groupCreated,
-                                            //       groupRole: groupRole,
-                                            //       groupID: groupID,
-                                            //     ),
-                                            //   ),
-                                            // );
+                                            Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                               builder: (context) => EditEvent(
+                                                   eventName: eventName,
+                                                    eventLocation: eventLocation,
+                                                    eventDate: eventDate,
+                                                    eventStart: eventStart,
+                                                    eventEnd: eventEnd,
+                                                ) ,
+                                             ),
+                                            );
                                           },
                                           icon: const Icon(Icons.settings),
                                         ),

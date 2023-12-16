@@ -18,10 +18,11 @@ class _EditGroupState extends State<EditGroup> {
   final TextEditingController groupNameController = TextEditingController();
   final TextEditingController groupDescriptionController = TextEditingController();
   String randomText = '';
-  
+
   // Firestore
   final FirestoreService firestoreService = FirestoreService();
 
+  //Set the current group details persisent in the text fields
   @override
   void initState() {
     super.initState();
