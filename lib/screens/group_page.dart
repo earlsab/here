@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:here/screens/create_group.dart';
+import 'package:here/screens/edit_group.dart';
 import 'package:here/screens/join_group.dart';
 import 'package:here/screens/navigation_menu.dart';
 import 'package:here/screens/settings.dart';
@@ -15,7 +16,8 @@ class GroupPage extends StatefulWidget {
   State<GroupPage> createState() => _GroupPageState();
 }
 
-
+final groupNameController = TextEditingController();
+final groupDescriptionController = TextEditingController();
 
 class _GroupPageState extends State<GroupPage> {
   // Firestore
@@ -222,6 +224,8 @@ class _GroupPageState extends State<GroupPage> {
                       if (groupsSnapshot.hasData && groupsSnapshot.data?.data() != null) {
                         Map<String, dynamic> data = groupsSnapshot.data?.data() as Map<String, dynamic>;
                         String groupName = data['groupName'];
+                        String groupDescription = data['groupDescription'];
+
 
                             // Navigator.of(context).push(
                             //   MaterialPageRoute(
@@ -259,21 +263,17 @@ return Card(
           // Update button
           IconButton(
             onPressed: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) => CrudGroup(
-              //       title: 'Update Group',
-              //       groupName: groupName,
-              //       groupDescription: groupDescription,
-              //       groupCode: groupCode,
-              //       groupCreated: groupCreated,
-              //       groupRole: groupRole,
-              //       groupID: groupID,
-              //     ),
-              //   ),
-              // );
+              Navigator.of(context).push(
+              MaterialPageRoute(
+              builder: (context) => EditGroup(
+                     groupName: groupName,
+                     groupDescription: groupDescription,
+                     randomText: groupID,
+                   ),
+                 ),
+               );
             },
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.edit),
           ),
           IconButton(
             onPressed: () {

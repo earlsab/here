@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:here/screens/text-effects/animate_textfield.dart';
 import 'package:here/screens/group_page.dart';
-import 'package:random_uuid_string/random_uuid_string.dart';
 import 'package:here/functions/firestore.dart';
 
 class EditGroup extends StatefulWidget {
-  final String title;
+  final String groupName;
+  final String groupDescription;
+  final String randomText;
 
-  const EditGroup({super.key, required this.title});
+  const EditGroup({super.key, required this.groupName, required this.groupDescription, required this.randomText});
 
   @override
   State<EditGroup> createState() => _EditGroupState();
-  
 }
 
-final TextEditingController groupNameController = TextEditingController();
-final TextEditingController groupDescriptionController = TextEditingController();
-
 class _EditGroupState extends State<EditGroup> {
-  String randomText = RandomString.randomString(length: 6).toUpperCase();
-
-    // Firestore
+  final TextEditingController groupNameController = TextEditingController();
+  final TextEditingController groupDescriptionController = TextEditingController();
+  String randomText = '';
+  
+  // Firestore
   final FirestoreService firestoreService = FirestoreService();
+
+  @override
+  void initState() {
+    super.initState();
+    groupNameController.text = widget.groupName;
+    groupDescriptionController.text = widget.groupDescription;
+    randomText = widget.randomText;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +53,9 @@ class _EditGroupState extends State<EditGroup> {
                       );
                     },
                   ),
-                   Text(
-                    title,
-                    style: const TextStyle(
+                   const Text(
+                    "Edit Group",
+                    style: TextStyle(
                       fontFamily: "Helvetica Neue", 
                       fontSize: 50,
                       fontWeight: FontWeight.bold),
