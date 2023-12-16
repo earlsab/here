@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:here/screens/group_page.dart';
 import 'package:here/screens/events_page.dart';
 import 'package:flutter/services.dart';
-
+import 'package:here/functions/globals.dart' as globals;
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
-  
+
   @override
   NavigationState createState() => NavigationState();
 }
@@ -28,7 +28,6 @@ class NavigationState extends State<NavigationPage> {
       DeviceOrientation.portraitDown,
     ]);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +70,15 @@ class NavigationState extends State<NavigationPage> {
                   ),
                 ],
                 onTap: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
+                  if (index == 1 && globals.currentGroup == '') {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Choose a group first!')),
+                    );
+                  } else {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  }
                 },
               ),
             ),
